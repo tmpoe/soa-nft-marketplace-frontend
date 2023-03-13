@@ -1,0 +1,2 @@
+- name: solidity-metrics-action
+  uses: tintinweb/solidity-metrics-action@v1
