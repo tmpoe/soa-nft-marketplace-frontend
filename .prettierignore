@@ -1,13 +1,13 @@
-.DS_Store
 node_modules
-/build
-/.svelte-kit
-/package
+artifacts
+cache
+coverage*
+gasReporterOutput.json
+package.json
+img
 .env
-.env.*
-!.env.example
-
-# Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+.*
+README.md
+coverage.json
+deployments
+.next
