@@ -1,4 +1,10 @@
-<h1 class="text-3xl font-bold underline">Mark's incredible Nft Marketplace</h1>
+<script>
+	import Layout from './Layout.svelte';
+</script>
+
+<Layout>
+	<h1 class="text-3xl font-bold underline">Asd</h1>
+</Layout>
 
 <style lang="postcss">
 	:global(html) {
