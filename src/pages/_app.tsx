@@ -9,6 +9,7 @@ const { provider, webSocketProvider } = configureChains([mainnet], [publicProvid
 const client = createClient({
     provider,
     webSocketProvider,
+    autoConnect: true,
 })
 
 export default function App({ Component, pageProps }: AppProps) {

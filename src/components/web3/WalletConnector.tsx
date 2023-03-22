@@ -1,9 +1,33 @@
-import { useConnect } from "wagmi"
-import React from "react"
+import { useAccount, useConnect, useDisconnect } from "wagmi"
 import ClientOnly from "../ClientOnly"
+import { useEffect, useState } from "react"
 
 export default function Profile() {
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
+    const { address, isConnected } = useAccount()
+    const { disconnect } = useDisconnect()
+
+    const [isDefinitelyConnected, setIsDefinitelyConnected] = useState(false)
+
+    useEffect(() => {
+        if (isConnected) {
+            setIsDefinitelyConnected(true)
+        } else {
+            setIsDefinitelyConnected(false)
+        }
+    }, [address])
+
+    if (isDefinitelyConnected) {
+        return (
+            <ClientOnly>
+                <div>
+                    Connected to {address?.slice(0, 8)}
+                    <br />
+                    <button onClick={() => disconnect()}>Disconnect</button>
+                </div>
+            </ClientOnly>
+        )
+    }
 
     return (
         <div>
@@ -12,9 +36,11 @@ export default function Profile() {
                     <button
                         disabled={!connector.ready}
                         key={connector.id}
-                        onClick={() => connect({ connector })}
+                        onClick={() => {
+                            connect({ connector })
+                        }}
                     >
-                        {connector.name}
+                        {!isConnected && "Connect Wallet"}
                         {!connector.ready && " (unsupported)"}
                         {isLoading && connector.id === pendingConnector?.id && " (connecting)"}
                     </button>
