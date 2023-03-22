@@ -1,6 +1,3 @@
-import styles from "@/styles/Home.module.css"
-import Header from "../components/Header"
-
 export default function App() {
-    return <Header />
+    return <div>Home</div>
 }
