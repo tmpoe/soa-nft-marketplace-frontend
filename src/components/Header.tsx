@@ -1,5 +1,5 @@
 import logo from "../../public/logo.png"
-import ConnectWallet from "./web3/connect_wallet"
+import WalletConnector from "./web3/WalletConnector"
 
 export default function Header() {
     return (
@@ -13,7 +13,7 @@ export default function Header() {
                         </span>
                     </a>
                     <div className="flex items-center lg:order-2">
-                        <ConnectWallet />
+                        <WalletConnector />
                         <button
                             data-collapse-toggle="mobile-menu-2"
                             type="button"
