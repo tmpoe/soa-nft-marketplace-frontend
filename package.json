@@ -20,7 +20,6 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"ethers": "5.7.2",
 		"ethers-typescript-typings": "^0.0.4",
 		"next": "13.2.4",
 		"postcss": "^8.4.21",
@@ -33,5 +32,10 @@
 		"typescript": "5.0.2",
 		"wagmi": "^0.12.2"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"moralis": "^2.18.2",
+		"moralis-v1": "^1.12.0",
+		"react-moralis": "^1.4.2"
+	}
 }
