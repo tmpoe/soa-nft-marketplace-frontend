@@ -17,6 +17,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.14",
+		"dotenv": "^16.0.3",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
@@ -36,6 +37,7 @@
 	"dependencies": {
 		"moralis": "^2.18.2",
 		"moralis-v1": "^1.12.0",
-		"react-moralis": "^1.4.2"
+		"react-moralis": "^1.4.2",
+		"web3": "^1.9.0"
 	}
 }

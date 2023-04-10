@@ -1,44 +1,39 @@
 import contracts from "../../constants/abi/contracts.json"
-import { prepareWriteContract, writeContract } from "@wagmi/core"
+import { AbiItem } from "web3-utils"
 import { useAccount } from "wagmi"
-import { useMoralis, useWeb3Contract } from "react-moralis"
+import web3 from "../../provider/web3"
 
 export default function mint() {
     const { address } = useAccount()
-    const { chainId, account, isWeb3Enabled } = useMoralis()
-    console.debug(chainId, account, isWeb3Enabled)
     // forget moralis, use hardhat maybe? I do not want another service with APis or whatever just to call a goddamn contract
     async function requestMint(address: `0x${string}`) {
-        const nftMarketplaceArtifact = contracts["31337"][0]["contracts"]["NftMarketplace"]
+        const chainId: number = await web3.eth.getChainId()
 
-        const paymentConfig = {
-            abi: nftMarketplaceArtifact!["abi"],
-            contractAddress: nftMarketplaceArtifact!["address"],
-            functionName: "gatekeep",
-            params: {
-                value: 1,
-            },
-        }
-
-        const { runContractFunction } = useWeb3Contract(paymentConfig)
+        const nftMarketplaceArtifact =
+            contracts[chainId.toString() as keyof typeof contracts][0]["contracts"][
+                "NftMarketplace"
+            ]
+        const nftMarketplace = new web3.eth.Contract(
+            nftMarketplaceArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
+            nftMarketplaceArtifact!.address
+        )
         try {
-            runContractFunction()
+            const tx = await nftMarketplace.methods
+                .gatekeep()
+                .send({ from: address, value: web3.utils.toWei("0.01", "ether") })
+            console.debug(tx.events.NftRequested)
             console.debug("Money sent!")
-        } catch (error) {
-            console.error(error)
-        }
-
-        /* const response = await fetch(
-            "http://localhost:5000/0xC75444ef801b50f5601230db66F784e2078BE7Bb",
-            {
+            const response = await fetch(`http://localhost:5000/${address}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 },
-            }
-        )
-        console.debug(response)
-        console.debug(await response.text()) */
+            })
+            console.debug(response)
+            console.debug(await response.text())
+        } catch (error) {
+            console.error(error)
+        }
     }
     return (
         <div>
