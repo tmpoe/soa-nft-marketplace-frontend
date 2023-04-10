@@ -5,4 +5,4 @@ sources:
         endpoint: http://localhost:8000/subgraphs/name/ref-nftmark-pet-proj
 
 documents:
-  - ./subgraph/queries.graphql
+  - subgraph/queries.graphql
