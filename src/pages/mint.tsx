@@ -1,28 +1,13 @@
 import contracts from "../../constants/abi/contracts.json"
 import { prepareWriteContract, writeContract } from "@wagmi/core"
 import { useAccount } from "wagmi"
-import { useMoralis, useWeb3Contract } from "react-moralis"
 
 export default function mint() {
     const { address } = useAccount()
-    const { chainId, account, isWeb3Enabled } = useMoralis()
-    console.debug(chainId, account, isWeb3Enabled)
-    // forget moralis, use hardhat maybe? I do not want another service with APis or whatever just to call a goddamn contract
     async function requestMint(address: `0x${string}`) {
         const nftMarketplaceArtifact = contracts["31337"][0]["contracts"]["NftMarketplace"]
 
-        const paymentConfig = {
-            abi: nftMarketplaceArtifact!["abi"],
-            contractAddress: nftMarketplaceArtifact!["address"],
-            functionName: "gatekeep",
-            params: {
-                value: 1,
-            },
-        }
-
-        const { runContractFunction } = useWeb3Contract(paymentConfig)
         try {
-            runContractFunction()
             console.debug("Money sent!")
         } catch (error) {
             console.error(error)
