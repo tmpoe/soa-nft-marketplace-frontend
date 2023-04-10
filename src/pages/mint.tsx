@@ -1,21 +1,11 @@
 import contracts from "../../constants/abi/contracts.json"
-import { useAccount, useNetwork } from "wagmi"
-import { ethers } from "hardhat"
+import { prepareWriteContract, writeContract } from "@wagmi/core"
+import { useAccount } from "wagmi"
 
 export default function mint() {
     const { address } = useAccount()
-    const { chain } = useNetwork()
-
-    console.debug(address, chain)
-    async function requestMint() {
-        if (chain === undefined || address === undefined) {
-            // TODO popup - connect metamask
-            return
-        }
-
-        const chainId = chain.network
-        const nftMarketplaceArtifact =
-            contracts[chainId as keyof typeof contracts][0]["contracts"]["NftMarketplace"]
+    async function requestMint(address: `0x${string}`) {
+        const nftMarketplaceArtifact = contracts["31337"][0]["contracts"]["NftMarketplace"]
 
         try {
             console.debug("Money sent!")
@@ -39,7 +29,7 @@ export default function mint() {
         <div>
             <button
                 className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-                onClick={() => requestMint()}
+                onClick={() => requestMint(address!)}
             >
                 Mint
             </button>
