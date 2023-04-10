@@ -1,0 +1,8 @@
+sources:
+  - name: ref-nftmark-pet-proj
+    handler:
+      graphql:
+        endpoint: http://localhost:8000/subgraphs/name/ref-nftmark-pet-proj
+
+documents:
+  - ./subgraph/queries.graphql

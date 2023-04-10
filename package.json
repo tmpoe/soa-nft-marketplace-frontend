@@ -7,9 +7,12 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"buildGraph": "yarn run graphclient build --fileType js && echo throws error for ts on its own generated file"
 	},
 	"devDependencies": {
+		"@graphprotocol/client-cli": "^2.2.20",
+		"@graphprotocol/graph-ts": "^0.29.3",
 		"@metamask/providers": "^10.2.1",
 		"@types/node": "18.15.5",
 		"@types/react": "^18.0.28",
@@ -36,6 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"@apollo/client": "^3.7.11",
+		"graphql": "^16.6.0",
 		"moralis": "^2.18.2",
 		"moralis-v1": "^1.12.0",
 		"react-moralis": "^1.4.2",

@@ -1,0 +1,6 @@
+query GetLatestOwnerNft($owner: Bytes = "") {
+    nftMinteds(where: { owner: $owner }, orderBy: tokenId, orderDirection: desc, first: 1) {
+        owner
+        tokenId
+    }
+}
