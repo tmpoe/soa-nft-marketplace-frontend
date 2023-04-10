@@ -2,9 +2,13 @@ import contracts from "../../constants/abi/contracts.json"
 import { AbiItem } from "web3-utils"
 import { useAccount } from "wagmi"
 import web3 from "../../provider/web3"
+import MintingModal from "../components/MintingModal"
+import { useState } from "react"
 
 export default function mint() {
     const { address } = useAccount()
+    const [minting, setMinting] = useState(false)
+
     // forget moralis, use hardhat maybe? I do not want another service with APis or whatever just to call a goddamn contract
     async function requestMint(address: `0x${string}`) {
         const chainId: number = await web3.eth.getChainId()
@@ -31,6 +35,7 @@ export default function mint() {
             })
             console.debug(response)
             console.debug(await response.text())
+            setMinting(true)
         } catch (error) {
             console.error(error)
         }
@@ -43,6 +48,7 @@ export default function mint() {
             >
                 Mint
             </button>
+            {minting && <MintingModal />}
         </div>
     )
 }
