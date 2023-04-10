@@ -5,17 +5,46 @@ import { useAccount } from "wagmi"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { address } = useAccount()
+    let timer: any
 
-    const [data, setData] = React.useState<GetLatestOwnerNftQuery>()
     const [latestTokenid, setLatestTokenid] = React.useState<string>()
-    // TODO make it interval queried
+
+    async function getLatestNft() {
+        const result = await execute(GetLatestOwnerNftDocument, { owner: address })
+        return result?.data.nftMinteds[0].tokenId
+    }
+
+    async function initLatestNft() {
+        const tokenId = await getLatestNft()
+        console.debug("address", address)
+        console.debug("initLatestNft", tokenId)
+        setLatestTokenid(tokenId)
+    }
+
+    function updateLatestNft() {
+        timer =
+            !timer &&
+            setInterval(async () => {
+                const newTokenId = await getLatestNft()
+                if (newTokenId != latestTokenid) {
+                    console.debug("Latest nft changed!")
+                }
+                setLatestTokenid(newTokenId)
+
+                console.debug("address", address)
+                console.debug("latest", latestTokenid)
+                console.debug("new", newTokenId)
+            }, 1000)
+    }
+
     useEffect(() => {
-        execute(GetLatestOwnerNftDocument, { owner: address }).then((result) => {
-            setData(result?.data)
-        })
-        console.log("Nfts for", address)
-        console.log(data)
-    }, [setData])
+        initLatestNft()
+    }, [])
+
+    useEffect(() => {
+        updateLatestNft()
+        return () => clearInterval(timer)
+    }, [latestTokenid])
     return (
         <div>
             <Header />
