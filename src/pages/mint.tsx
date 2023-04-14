@@ -27,6 +27,7 @@ export default function mint() {
                 .send({ from: address, value: web3.utils.toWei("0.01", "ether") })
             console.debug(tx.events.NftRequested)
             console.debug("Money sent!")
+            console.debug(await web3.eth.getBalance(nftMarketplaceArtifact!.address))
             const response = await fetch(`http://localhost:5000/${address}`, {
                 method: "POST",
                 headers: {
