@@ -1,8 +1,9 @@
 import Header from "./Header"
-import web3 from "../../provider/web3"
+import { EventEmitter, Events } from "./EventEmitter"
 import React, { useEffect } from "react"
 import { GetLatestOwnerNftDocument, GetLatestOwnerNftQuery, execute } from "../../.graphclient"
 import { useAccount } from "wagmi"
+import showToast from "./Toast"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { address } = useAccount()
@@ -21,8 +22,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     async function initLatestNft() {
         try {
             const tokenId = await getLatestNft()
-            console.debug("address", address)
-            console.debug("initLatestNft", tokenId)
             setLatestTokenid(tokenId)
         } catch (error) {
             console.debug(error)
@@ -37,12 +36,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     const newTokenId = await getLatestNft()
                     if (newTokenId != latestTokenid) {
                         console.debug("Latest nft changed!")
+                        showToast()
                     }
                     setLatestTokenid(newTokenId)
-
-                    console.debug("address", address)
-                    console.debug("latest", latestTokenid)
-                    console.debug("new", newTokenId)
                 } catch (error) {
                     console.debug(error)
                 }

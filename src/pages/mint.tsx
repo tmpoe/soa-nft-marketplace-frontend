@@ -3,13 +3,14 @@ import { AbiItem } from "web3-utils"
 import { useAccount } from "wagmi"
 import web3 from "../../provider/web3"
 import MintingModal from "../components/MintingModal"
+import { EventEmitter, Events } from "../components/EventEmitter"
 import { useState } from "react"
 
 export default function mint() {
     const { address } = useAccount()
     const [minting, setMinting] = useState(false)
+    EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setMinting(false))
 
-    // forget moralis, use hardhat maybe? I do not want another service with APis or whatever just to call a goddamn contract
     async function requestMint(address: `0x${string}`) {
         const chainId: number = await web3.eth.getChainId()
 
@@ -49,7 +50,7 @@ export default function mint() {
             >
                 Mint
             </button>
-            {minting && <MintingModal />}
+            {minting && <MintingModal show={minting} />}
         </div>
     )
 }

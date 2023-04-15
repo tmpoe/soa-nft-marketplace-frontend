@@ -1,8 +1,13 @@
 import React from "react"
+import { EventEmitter, Events } from "./EventEmitter"
+
+interface ShowModal {
+    show: boolean
+}
 
 // https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/react/modals/regular
-export default function MintingModal() {
-    const [showModal, setShowModal] = React.useState(true)
+export default function MintingModal({ show }: ShowModal) {
+    const [showModal, setShowModal] = React.useState(show)
     return (
         <>
             {showModal ? (
@@ -16,7 +21,11 @@ export default function MintingModal() {
                                     <h3 className="text-3xl font-semibold">Minting</h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={() =>
+                                            EventEmitter.dispatch(Events.MODAL_CLOSED, {
+                                                modal_name: "minting_modal",
+                                            })
+                                        }
                                     >
                                         <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                                             ×
@@ -35,7 +44,11 @@ export default function MintingModal() {
                                     <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={() =>
+                                            EventEmitter.dispatch(Events.MODAL_CLOSED, {
+                                                modal_name: "minting_modal",
+                                            })
+                                        }
                                     >
                                         Okay
                                     </button>
