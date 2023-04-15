@@ -3,7 +3,8 @@ import { EventEmitter, Events } from "./EventEmitter"
 import React, { useEffect } from "react"
 import { GetLatestOwnerNftDocument, GetLatestOwnerNftQuery, execute } from "../../.graphclient"
 import { useAccount } from "wagmi"
-import showToast from "./Toast"
+import { toast } from "react-hot-toast"
+import { TailwindToaster } from "./Toast"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { address } = useAccount()
@@ -36,7 +37,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     const newTokenId = await getLatestNft()
                     if (newTokenId != latestTokenid) {
                         console.debug("Latest nft changed!")
-                        showToast()
+                        EventEmitter.dispatch(Events.MINTING_FINISHED, {})
+                        toast.success("Your NFT has been minted!")
                     }
                     setLatestTokenid(newTokenId)
                 } catch (error) {
@@ -57,6 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div>
             <Header />
             {children}
+            <TailwindToaster />
         </div>
     )
 }

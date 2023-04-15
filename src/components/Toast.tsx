@@ -1,28 +1,26 @@
 import React from "react"
-import classNames from "classnames"
-import toast, { Toaster } from "react-hot-toast"
-import { MdOutlineClose } from "react-icons/md"
-import { HiLightningBolt } from "react-icons/hi"
+import { Transition } from "@headlessui/react"
+import { Toaster, ToastIcon, resolveValue } from "react-hot-toast"
 
-export default function showToast() {
-    toast.custom(
-        (t) => (
-            <div className={classNames([".notificationWrapper", t.visible ? "top-0" : "-top-96"])}>
-                <div className=".iconWrapper">
-                    <HiLightningBolt />
-                </div>
-                <div className=".contentWrapper">
-                    <h1>Your NFT is ready!</h1>
-                    <p>
-                        We are happy to inform you that our hardworking minters just finished you
-                        newest NFT.
-                    </p>
-                </div>
-                <div className=".closeIcon" onClick={() => toast.dismiss(t.id)}>
-                    <MdOutlineClose />
-                </div>
-            </div>
-        ),
-        { id: "unique-notification", position: "top-center" }
+export const TailwindToaster = () => {
+    return (
+        <Toaster position="bottom-right">
+            {(t) => (
+                <Transition
+                    appear
+                    show={t.visible}
+                    className="transform p-4 flex bg-white rounded shadow-lg"
+                    enter="transition-all duration-150"
+                    enterFrom="opacity-0 scale-50"
+                    enterTo="opacity-100 scale-100"
+                    leave="transition-all duration-150"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-75"
+                >
+                    <ToastIcon toast={t} />
+                    <p className="px-2">{resolveValue(t.message, t)}</p>
+                </Transition>
+            )}
+        </Toaster>
     )
 }
