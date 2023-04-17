@@ -1,7 +1,7 @@
 import Header from "./Header"
 import { EventEmitter, Events } from "./EventEmitter"
 import React, { useEffect } from "react"
-import { GetLatestOwnerNftDocument, GetLatestOwnerNftQuery, execute } from "../../.graphclient"
+import { GetLatestOwnerNftDocument, execute } from "../../.graphclient"
 import { useAccount } from "wagmi"
 import { toast } from "react-hot-toast"
 import { TailwindToaster } from "./Toast"

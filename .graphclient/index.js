@@ -86,6 +86,12 @@ export async function getMeshOptions() {
                         return printWithCache(GetLatestOwnerNftDocument);
                     },
                     location: 'GetLatestOwnerNftDocument.graphql'
+                }, {
+                    document: GetOwnerNftsDocument,
+                    get rawSDL() {
+                        return printWithCache(GetOwnerNftsDocument);
+                    },
+                    location: 'GetOwnerNftsDocument.graphql'
                 }
             ];
         },
@@ -131,10 +137,21 @@ export const GetLatestOwnerNftDocument = gql `
   }
 }
     `;
+export const GetOwnerNftsDocument = gql `
+    query GetOwnerNfts($owner: Bytes = "") {
+  nftMinteds(where: {owner: $owner}, orderBy: tokenId, orderDirection: desc) {
+    owner
+    tokenId
+  }
+}
+    `;
 export function getSdk(requester) {
     return {
         GetLatestOwnerNft(variables, options) {
             return requester(GetLatestOwnerNftDocument, variables, options);
+        },
+        GetOwnerNfts(variables, options) {
+            return requester(GetOwnerNftsDocument, variables, options);
         }
     };
 }

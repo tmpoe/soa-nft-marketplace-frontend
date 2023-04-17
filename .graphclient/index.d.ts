@@ -1531,6 +1531,9 @@ export declare function getBuiltGraphSDK<TGlobalContext = any, TOperationContext
     GetLatestOwnerNft(variables?: Exact<{
         owner?: any;
     }>, options?: TOperationContext): Promise<GetLatestOwnerNftQuery>;
+    GetOwnerNfts(variables?: Exact<{
+        owner?: any;
+    }>, options?: TOperationContext): Promise<GetOwnerNftsQuery>;
 };
 export type GetLatestOwnerNftQueryVariables = Exact<{
     owner?: InputMaybe<Scalars['Bytes']>;
@@ -1538,11 +1541,21 @@ export type GetLatestOwnerNftQueryVariables = Exact<{
 export type GetLatestOwnerNftQuery = {
     nftMinteds: Array<Pick<NftMinted, 'owner' | 'tokenId'>>;
 };
+export type GetOwnerNftsQueryVariables = Exact<{
+    owner?: InputMaybe<Scalars['Bytes']>;
+}>;
+export type GetOwnerNftsQuery = {
+    nftMinteds: Array<Pick<NftMinted, 'owner' | 'tokenId'>>;
+};
 export declare const GetLatestOwnerNftDocument: DocumentNode<GetLatestOwnerNftQuery, Exact<{
+    owner?: InputMaybe<Scalars['Bytes']>;
+}>>;
+export declare const GetOwnerNftsDocument: DocumentNode<GetOwnerNftsQuery, Exact<{
     owner?: InputMaybe<Scalars['Bytes']>;
 }>>;
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>;
 export declare function getSdk<C, E>(requester: Requester<C, E>): {
     GetLatestOwnerNft(variables?: GetLatestOwnerNftQueryVariables, options?: C): Promise<GetLatestOwnerNftQuery>;
+    GetOwnerNfts(variables?: GetOwnerNftsQueryVariables, options?: C): Promise<GetOwnerNftsQuery>;
 };
 export type Sdk = ReturnType<typeof getSdk>;

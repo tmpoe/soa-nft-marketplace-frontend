@@ -18,6 +18,14 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "web3.ts"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "next.config.js",
+        "provider",
+        "src/components/EventEmitter.js",
+        "/web3.ts"
+    ],
     "exclude": ["node_modules"]
 }
