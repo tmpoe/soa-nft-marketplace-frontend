@@ -1,6 +1,7 @@
 import { useAccount } from "wagmi"
 import { GetOwnerNftsDocument, execute } from "../../.graphclient"
 import { useEffect, useState } from "react"
+import NftCard from "@/components/NftCard"
 
 export default function UserCollection() {
     const { address } = useAccount()
@@ -17,5 +18,37 @@ export default function UserCollection() {
         getOwnerNfts()
     }, [])
     console.log(nfts)
-    return <div>Your Nfts</div>
+    const n = [
+        {
+            owner: nfts[0]["owner"],
+            hash: nfts[0]["tokenId"],
+            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+        },
+        {
+            owner: nfts[1]["owner"],
+            hash: nfts[1]["tokenId"],
+            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+        },
+        {
+            owner: nfts[0]["owner"],
+            hash: nfts[0]["tokenId"],
+            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+        },
+        {
+            owner: nfts[1]["owner"],
+            hash: nfts[1]["tokenId"],
+            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+        },
+        {
+            owner: nfts[0]["owner"],
+            hash: nfts[0]["tokenId"],
+            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+        },
+        {
+            owner: nfts[1]["owner"],
+            hash: nfts[1]["tokenId"],
+            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+        },
+    ]
+    return <NftCard posts={n} />
 }
