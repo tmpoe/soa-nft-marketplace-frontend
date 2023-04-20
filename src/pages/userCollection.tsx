@@ -1,9 +1,9 @@
 import { useAccount } from "wagmi"
 import { GetOwnerNftsDocument, execute } from "../../.graphclient"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export default async function UserCollection() {
-    const { address } = await useAccount()
+export default function UserCollection() {
+    const { address } = useAccount()
     const [nfts, setNfts] = useState([])
 
     async function getOwnerNfts() {
@@ -13,7 +13,9 @@ export default async function UserCollection() {
         }
         setNfts(result.data.nftMinteds)
     }
-    await getOwnerNfts()
-
+    useEffect(() => {
+        getOwnerNfts()
+    }, [])
+    console.log(nfts)
     return <div>Your Nfts</div>
 }
