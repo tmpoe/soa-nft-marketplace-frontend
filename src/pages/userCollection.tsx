@@ -9,7 +9,7 @@ import { AbiItem } from "web3-utils"
 export default function UserCollection() {
     const { address } = useAccount()
     const [nftData, setNftData] = useState([])
-    const [nfts, setNfts] = useState([])
+    const [tokenUris, setTokenUris] = useState<string[]>([])
 
     async function getOwnerNftData() {
         const result = await execute(GetOwnerNftsDocument, { owner: address })
@@ -28,8 +28,15 @@ export default function UserCollection() {
             nftArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
             nftArtifact!.address
         )
+        let userTokenUris: string[] = []
         try {
             // get owner nfts
+            // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
+            nftData.map(async (data, index) => {
+                userTokenUris.push(await nftContract.methods.tokenURI(data["tokenId"]).call())
+            })
+            setTokenUris(userTokenUris)
+            console.log("User token uris: ", tokenUris)
         } catch (err) {
             console.error(err)
         }
@@ -37,40 +44,46 @@ export default function UserCollection() {
 
     useEffect(() => {
         getOwnerNftData()
-        getOwnerNfts()
     }, [])
+
+    useEffect(() => {
+        getOwnerNfts()
+    }, [nftData])
+
     console.log(nftData)
-    const n = [
-        {
-            owner: nftData[0]["owner"],
-            id: nftData[0]["tokenId"],
-            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-        },
-        {
-            owner: nftData[1]["owner"],
-            id: nftData[1]["tokenId"],
-            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-        },
-        {
-            owner: nftData[0]["owner"],
-            id: nftData[0]["tokenId"],
-            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-        },
-        {
-            owner: nftData[1]["owner"],
-            id: nftData[1]["tokenId"],
-            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-        },
-        {
-            owner: nftData[0]["owner"],
-            id: nftData[0]["tokenId"],
-            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-        },
-        {
-            owner: nftData[1]["owner"],
-            id: nftData[1]["tokenId"],
-            image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-        },
-    ]
+    const n = nftData[0]
+        ? [
+              {
+                  owner: nftData[0]["owner"],
+                  id: nftData[0]["tokenId"],
+                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+              },
+              {
+                  owner: nftData[1]["owner"],
+                  id: nftData[1]["tokenId"],
+                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+              },
+              {
+                  owner: nftData[0]["owner"],
+                  id: nftData[0]["tokenId"],
+                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+              },
+              {
+                  owner: nftData[1]["owner"],
+                  id: nftData[1]["tokenId"],
+                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+              },
+              {
+                  owner: nftData[0]["owner"],
+                  id: nftData[0]["tokenId"],
+                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+              },
+              {
+                  owner: nftData[1]["owner"],
+                  id: nftData[1]["tokenId"],
+                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
+              },
+          ]
+        : []
     return <NftCard posts={n} />
 }
