@@ -1,5 +1,6 @@
-export default async function getTokenMetadata(uri: string, api_key: string, api_secret: string) {
-    const url = `https://ref-nft-mark.infura-ipfs.io/ipfs/${uri}`
+export default async function getTokenMetadata(uri: string) {
+    console.log(`https://${process.env.NEXT_PUBLIC_IPFS_SUBDOMAIN}.infura-ipfs.io/ipfs/${uri}`)
+    const url = `https://${process.env.NEXT_PUBLIC_IPFS_SUBDOMAIN}.infura-ipfs.io/ipfs/${uri}`
     const response = await fetch(url)
     const metadata = await response.json()
     console.log(metadata)

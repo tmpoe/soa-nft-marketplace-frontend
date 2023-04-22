@@ -14,7 +14,7 @@ export default function UserCollection() {
 
     const infuraKey: string = process.env.REACT_APP_INFURA_IPFS_API_KEY || "api"
     const infuraSecret: string = process.env.REACT_APP_INFURA_IPFS_API_KEY_SECRET || "secret"
-    console.log(infuraKey)
+    console.log(process.env.REACT_APP_IPFS_SUBDOMAIN)
 
     async function getOwnerNftData() {
         const result = await execute(GetOwnerNftsDocument, { owner: address })
