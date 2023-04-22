@@ -7,27 +7,9 @@ import web3 from "../../provider/web3"
 import contracts from "../../constants/abi/contracts.json"
 import { AbiItem } from "web3-utils"
 import getTokenMetadata from "@/adapters/ipfs"
-import { NFTCardElement } from "@/types/nft"
+import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
 const IPFS_URL = "https://ipfs.io/ipfs/"
 // TODO do not duplicate backend data types
-type Attribute = {
-    trait_type: string
-    value: number | string
-}
-
-type TokenMetadata = {
-    name: string
-    imageLocation: string
-    attributes: Array<Attribute>
-}
-
-type OnChainTokenData = {
-    owner: string
-    tokenId: string
-    hash: string
-}
-
-type FullTokenData = OnChainTokenData & TokenMetadata
 
 export default function UserCollection() {
     const { address } = useAccount()
@@ -57,7 +39,10 @@ export default function UserCollection() {
         onChainNftData.map(async (data) => {
             const uri = await nftContract.methods.tokenURI(data.tokenId).call()
             const currentTokenMetadata = await getTokenMetadata(uri)
-            setFullNftData(currentState => [...currentState, { ...currentTokenMetadata, ...data }])
+            setFullNftData((currentState) => [
+                ...currentState,
+                { ...currentTokenMetadata, ...data },
+            ])
         })
         console.log("User token fullNftData: ", fullNftData)
     }
@@ -73,7 +58,6 @@ export default function UserCollection() {
     console.log("fullNftData", fullNftData)
     let n: NFTCardElement[] = []
     fullNftData.map((data, index) => {
-        console.log("fullNftData before render", data)
         n.push({ owner: data.owner, id: data.tokenId, image: IPFS_URL + data.imageLocation })
     })
     console.log("n", n)
