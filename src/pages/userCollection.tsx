@@ -56,10 +56,12 @@ export default function UserCollection() {
     }, [onChainNftData])
 
     console.log("fullNftData", fullNftData)
+
     let n: NFTCardElement[] = []
     fullNftData.map((data, index) => {
         n.push({ owner: data.owner, id: data.tokenId, image: IPFS_URL + data.imageLocation })
     })
     console.log("n", n)
+    n.sort((a, b) => (a.id > b.id ? -1 : 1))
     return <NftCard posts={n} />
 }
