@@ -1,3 +1,3 @@
-export default function App() {
+export default function Index() {
     return <div>Home</div>
 }
