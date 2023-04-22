@@ -5,11 +5,16 @@ import NftCard from "@/components/NftCard"
 import web3 from "../../provider/web3"
 import contracts from "../../constants/abi/contracts.json"
 import { AbiItem } from "web3-utils"
+import getTokenMetadata from "@/adapters/ipfs"
 
 export default function UserCollection() {
     const { address } = useAccount()
     const [nftData, setNftData] = useState([])
     const [tokenUris, setTokenUris] = useState<string[]>([])
+
+    const infuraKey: string = process.env.REACT_APP_INFURA_IPFS_API_KEY || "api"
+    const infuraSecret: string = process.env.REACT_APP_INFURA_IPFS_API_KEY_SECRET || "secret"
+    console.log(infuraKey)
 
     async function getOwnerNftData() {
         const result = await execute(GetOwnerNftsDocument, { owner: address })
@@ -33,7 +38,9 @@ export default function UserCollection() {
             // get owner nfts
             // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
             nftData.map(async (data, index) => {
-                userTokenUris.push(await nftContract.methods.tokenURI(data["tokenId"]).call())
+                const uri = await nftContract.methods.tokenURI(data["tokenId"]).call()
+                userTokenUris.push(uri)
+                await getTokenMetadata(uri, infuraKey, infuraSecret)
             })
             setTokenUris(userTokenUris)
             console.log("User token uris: ", tokenUris)
