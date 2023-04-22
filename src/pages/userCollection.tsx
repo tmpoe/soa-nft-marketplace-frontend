@@ -1,27 +1,45 @@
 import { useAccount } from "wagmi"
 import { GetOwnerNftsDocument, execute } from "../../.graphclient"
 import { useEffect, useState } from "react"
+import { useDeepCompareEffect } from "react-use"
 import NftCard from "@/components/NftCard"
 import web3 from "../../provider/web3"
 import contracts from "../../constants/abi/contracts.json"
 import { AbiItem } from "web3-utils"
 import getTokenMetadata from "@/adapters/ipfs"
+import { NFTCardElement } from "@/types/nft"
+const IPFS_URL = "https://ipfs.io/ipfs/"
+// TODO do not duplicate backend data types
+type Attribute = {
+    trait_type: string
+    value: number | string
+}
+
+type TokenMetadata = {
+    name: string
+    imageLocation: string
+    attributes: Array<Attribute>
+}
+
+type OnChainTokenData = {
+    owner: string
+    tokenId: string
+    hash: string
+}
+
+type FullTokenData = OnChainTokenData & TokenMetadata
 
 export default function UserCollection() {
     const { address } = useAccount()
-    const [nftData, setNftData] = useState([])
-    const [tokenUris, setTokenUris] = useState<string[]>([])
-
-    const infuraKey: string = process.env.REACT_APP_INFURA_IPFS_API_KEY || "api"
-    const infuraSecret: string = process.env.REACT_APP_INFURA_IPFS_API_KEY_SECRET || "secret"
-    console.log(process.env.REACT_APP_IPFS_SUBDOMAIN)
+    const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
+    const [fullNftData, setFullNftData] = useState<FullTokenData[]>([])
 
     async function getOwnerNftData() {
         const result = await execute(GetOwnerNftsDocument, { owner: address })
         if (!result) {
             throw new Error("Failed to get NFTs")
         }
-        setNftData(result.data.nftMinteds)
+        setOnChainNftData(result.data.nftMinteds)
     }
 
     async function getOwnerNfts() {
@@ -33,64 +51,31 @@ export default function UserCollection() {
             nftArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
             nftArtifact!.address
         )
-        let userTokenUris: string[] = []
-        try {
-            // get owner nfts
-            // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
-            nftData.map(async (data, index) => {
-                const uri = await nftContract.methods.tokenURI(data["tokenId"]).call()
-                userTokenUris.push(uri)
-                await getTokenMetadata(uri, infuraKey, infuraSecret)
-            })
-            setTokenUris(userTokenUris)
-            console.log("User token uris: ", tokenUris)
-        } catch (err) {
-            console.error(err)
-        }
+
+        // get owner nfts
+        // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
+        onChainNftData.map(async (data) => {
+            const uri = await nftContract.methods.tokenURI(data.tokenId).call()
+            const currentTokenMetadata = await getTokenMetadata(uri)
+            setFullNftData(currentState => [...currentState, { ...currentTokenMetadata, ...data }])
+        })
+        console.log("User token fullNftData: ", fullNftData)
     }
 
-    useEffect(() => {
+    useDeepCompareEffect(() => {
         getOwnerNftData()
     }, [])
 
-    useEffect(() => {
+    useDeepCompareEffect(() => {
         getOwnerNfts()
-    }, [nftData])
+    }, [onChainNftData])
 
-    console.log(nftData)
-    const n = nftData[0]
-        ? [
-              {
-                  owner: nftData[0]["owner"],
-                  id: nftData[0]["tokenId"],
-                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-              },
-              {
-                  owner: nftData[1]["owner"],
-                  id: nftData[1]["tokenId"],
-                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-              },
-              {
-                  owner: nftData[0]["owner"],
-                  id: nftData[0]["tokenId"],
-                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-              },
-              {
-                  owner: nftData[1]["owner"],
-                  id: nftData[1]["tokenId"],
-                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-              },
-              {
-                  owner: nftData[0]["owner"],
-                  id: nftData[0]["tokenId"],
-                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-              },
-              {
-                  owner: nftData[1]["owner"],
-                  id: nftData[1]["tokenId"],
-                  image: "https://cdn.pixabay.com/photo/2019/12/17/14/43/christmas-4701783__340.png",
-              },
-          ]
-        : []
+    console.log("fullNftData", fullNftData)
+    let n: NFTCardElement[] = []
+    fullNftData.map((data, index) => {
+        console.log("fullNftData before render", data)
+        n.push({ owner: data.owner, id: data.tokenId, image: IPFS_URL + data.imageLocation })
+    })
+    console.log("n", n)
     return <NftCard posts={n} />
 }
