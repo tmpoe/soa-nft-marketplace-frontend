@@ -2,10 +2,21 @@ import { NFTCardElement } from "@/types/nft"
 import React from "react"
 
 export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
+    function createAttributesListElements(token: NFTCardElement) {
+        let listElements: JSX.Element[] = []
+        token.attributes.map((attribute) => {
+            listElements.push(
+                <li key={attribute.trait_type}>
+                    {attribute.trait_type}: {attribute.value}
+                </li>
+            )
+        })
+        return listElements
+    }
     return (
         <>
             <div className="grid gap-2 lg:grid-cols-4">
-                {posts.map((item, key) => (
+                {posts.map((item: NFTCardElement, key) => (
                     <div className="w-full rounded-lg shadow-md lg:max-w-sm" key={key}>
                         <img className="object-cover w-full h-48" src={item.image} alt="image" />
                         <div className="grid gap-2 lg:grid-cols-2 grid-rows-3 col-start-1 col-span-4 p-4">
@@ -13,10 +24,12 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                                 Owner: {item.owner.slice(0, 8)}
                             </h4>
                             <div
-                                className="rounded-lg shadow-md col-start-2 col-span-1 row-start-1 row-span-3"
+                                className="rounded-lg shadow-md col-start-2 col-span-1 row-start-1 row-span-3 p-4 items-center flex"
                                 key={`${key}_sub_card`}
                             >
-                                Gugya
+                                <ul className="list-none space-y-4">
+                                    {...createAttributesListElements(item)}
+                                </ul>
                             </div>
                             <p className="mb-2 leading-normal col-start-1 col-span-2 row-span-1 row-start-2">
                                 Token Id: {item.id}
