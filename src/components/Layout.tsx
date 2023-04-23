@@ -4,7 +4,7 @@ import React, { useEffect } from "react"
 import { GetLatestOwnerNftDocument, execute } from "../../.graphclient"
 import { useAccount } from "wagmi"
 import { toast } from "react-hot-toast"
-import { TailwindToaster } from "./Toast"
+import { InfoToaster } from "./InfoToast"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { address } = useAccount()
@@ -59,7 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div>
             <Header />
             {children}
-            <TailwindToaster />
+            <InfoToaster />
         </div>
     )
 }

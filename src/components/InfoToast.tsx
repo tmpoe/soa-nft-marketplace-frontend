@@ -2,7 +2,7 @@ import React from "react"
 import { Transition } from "@headlessui/react"
 import { Toaster, ToastIcon, resolveValue } from "react-hot-toast"
 
-export const TailwindToaster = () => {
+export const InfoToaster = () => {
     return (
         <Toaster position="bottom-right">
             {(t) => (
