@@ -37,12 +37,16 @@ export default function UserCollection() {
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
         onChainNftData.map(async (data) => {
-            const uri = await nftContract.methods.tokenURI(data.tokenId).call()
-            const currentTokenMetadata = await getTokenMetadata(uri)
-            setFullNftData((currentState) => [
-                ...currentState,
-                { ...currentTokenMetadata, ...data },
-            ])
+            try {
+                const uri = await nftContract.methods.tokenURI(data.tokenId).call()
+                const currentTokenMetadata = await getTokenMetadata(uri)
+                setFullNftData((currentState) => [
+                    ...currentState,
+                    { ...currentTokenMetadata, ...data },
+                ])
+            } catch (error) {
+                console.error(error)
+            }
         })
         console.log("User token fullNftData: ", fullNftData)
     }
