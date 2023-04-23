@@ -21,7 +21,7 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
     }
     return (
         <>
-            <div className="grid gap-2 lg:grid-cols-4">
+            <div className="grid gap-6 lg:grid-cols-4">
                 {posts.map((item: NFTCardElement, key) => (
                     <div className="w-full rounded-lg shadow-md lg:max-w-sm" key={key}>
                         <img className="object-cover w-full h-48" src={item.image} alt="image" />
