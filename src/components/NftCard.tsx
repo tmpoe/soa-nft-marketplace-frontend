@@ -1,13 +1,19 @@
 import { NFTCardElement } from "@/types/nft"
+import { cleanString } from "@/utils/string"
 import React from "react"
 
 export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
     function createAttributesListElements(token: NFTCardElement) {
         let listElements: JSX.Element[] = []
         token.attributes.map((attribute) => {
+            let cleanedTraitType: string = cleanString(attribute.trait_type)
+            let cleanedTraitValue: string | number =
+                typeof attribute.value === "string"
+                    ? cleanString(attribute.value)
+                    : attribute.value
             listElements.push(
                 <li key={attribute.trait_type}>
-                    {attribute.trait_type}: {attribute.value}
+                    {cleanedTraitType}: {cleanedTraitValue}
                 </li>
             )
         })
