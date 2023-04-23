@@ -59,7 +59,12 @@ export default function UserCollection() {
 
     let n: NFTCardElement[] = []
     fullNftData.map((data, index) => {
-        n.push({ owner: data.owner, id: data.tokenId, image: IPFS_URL + data.imageLocation })
+        n.push({
+            owner: data.owner,
+            id: data.tokenId,
+            image: IPFS_URL + data.imageLocation,
+            attributes: data.attributes,
+        })
     })
     console.log("n", n)
     n.sort((a, b) => (a.id > b.id ? -1 : 1))

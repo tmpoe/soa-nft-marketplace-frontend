@@ -1,9 +1,4 @@
 // TODO: when to use interface vs type?
-export interface NFTCardElement {
-    owner: string
-    id: string
-    image: string
-}
 
 export type Attribute = {
     trait_type: string
@@ -23,3 +18,10 @@ export type OnChainTokenData = {
 }
 
 export type FullTokenData = OnChainTokenData & TokenMetadata
+
+export interface NFTCardElement {
+    owner: string
+    id: string
+    image: string
+    attributes: Attribute[]
+}
