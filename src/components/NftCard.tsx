@@ -1,8 +1,13 @@
 import { NFTCardElement } from "@/types/nft"
 import { cleanString } from "@/utils/string"
-import React from "react"
+import React, { useState } from "react"
+import { EventEmitter, Events } from "../components/EventEmitter"
+import SellingModal from "./SellingModal"
 
 export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
+    const [showSellingModal, setShowSellingModal] = useState(false)
+    EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setShowSellingModal(false))
+
     function createAttributesListElements(token: NFTCardElement) {
         let listElements: JSX.Element[] = []
         token.attributes.map((attribute) => {
@@ -42,13 +47,17 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                             </p>
                             <button
                                 className="px-4 py-2 row-span-1 row-start-3 col-start-1 col-span-1 text-sm text-blue-100 bg-blue-500 rounded shadow"
-                                onClick={() => console.log("Sell popup")}
+                                onClick={() => {
+                                    setShowSellingModal(true)
+                                    console.log("gugya")
+                                }}
                             >
                                 Sell
                             </button>
                         </div>
                     </div>
                 ))}
+                {showSellingModal && <SellingModal show={showSellingModal} />}
             </div>
         </>
     )
