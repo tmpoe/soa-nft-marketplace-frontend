@@ -50,7 +50,7 @@ export default function mint() {
             >
                 Mint
             </button>
-            {minting && <MintingModal show={minting} />}
+            {minting && <MintingModal />}
         </div>
     )
 }
