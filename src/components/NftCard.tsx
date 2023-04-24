@@ -57,7 +57,7 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                         </div>
                     </div>
                 ))}
-                {showSellingModal && <SellingModal show={showSellingModal} />}
+                {showSellingModal && <SellingModal />}
             </div>
         </>
     )
