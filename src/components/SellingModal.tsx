@@ -1,14 +1,28 @@
 import React from "react"
 import { EventEmitter, Events } from "./EventEmitter"
-
-interface ShowModal {
-    show: boolean
-}
+import { useAccount } from "wagmi"
+import { ContractHandler } from "@/utils/contracts"
+import web3 from "../../provider/web3"
 
 // https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/react/modals/regular
-export default function SellingModal() {
-    async function listNft() {
+export default function SellingModal({ tokenId }: { tokenId: string }) {
+    const { address } = useAccount()
+
+    async function listNft(tokenId: string, price: string) {
         console.log("list nft")
+        const contractHandler = await ContractHandler.getContractHandler()
+        await contractHandler.approveMarketplaceToHandleNftOwnerChange(parseInt(tokenId), address!)
+
+        const nftMarketplace = contractHandler.getNftMarketplaceContract()
+        const nftAddress = await contractHandler.getNftContractAddress()
+
+        console.log(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
+        console.log(nftMarketplace.methods)
+
+        const result = await nftMarketplace.methods
+            .listNft(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
+            .send({ from: address })
+        console.log(result)
         EventEmitter.dispatch(Events.MODAL_CLOSED, {
             modal_name: "minting_modal",
         })
@@ -50,9 +64,9 @@ export default function SellingModal() {
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
                                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                             ></path>
                                         </svg>
@@ -66,7 +80,7 @@ export default function SellingModal() {
                                     <button
                                         type="submit"
                                         className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                        onClick={listNft}
+                                        onClick={() => listNft(tokenId, "1")}
                                     >
                                         List
                                     </button>

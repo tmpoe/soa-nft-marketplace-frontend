@@ -6,7 +6,11 @@ import SellingModal from "./SellingModal"
 
 export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
     const [showSellingModal, setShowSellingModal] = useState(false)
-    EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setShowSellingModal(false))
+    const [tokenToSell, setTokenToSell] = useState("")
+    EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => {
+        setShowSellingModal(false)
+        setTokenToSell("")
+    })
 
     function createAttributesListElements(token: NFTCardElement) {
         let listElements: JSX.Element[] = []
@@ -49,6 +53,7 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                                 className="px-4 py-2 row-span-1 row-start-3 col-start-1 col-span-1 text-sm text-blue-100 bg-blue-500 rounded shadow"
                                 onClick={() => {
                                     setShowSellingModal(true)
+                                    setTokenToSell(item.id)
                                     console.log("gugya")
                                 }}
                             >
@@ -57,7 +62,7 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                         </div>
                     </div>
                 ))}
-                {showSellingModal && <SellingModal />}
+                {showSellingModal && <SellingModal tokenId={tokenToSell} />}
             </div>
         </>
     )
