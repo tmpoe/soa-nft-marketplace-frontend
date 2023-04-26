@@ -3,12 +3,11 @@ import { GetOwnerNftsDocument, execute } from "../../.graphclient"
 import { useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 import NftCard from "@/components/NftCard"
-import web3 from "../../provider/web3"
-import contracts from "../../constants/abi/contracts.json"
-import { AbiItem } from "web3-utils"
 import getTokenMetadata from "@/adapters/ipfs"
 import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
+import { ContractHandler } from "@/utils/contracts"
+import Nft from "@/adapters/nft"
 // TODO do not duplicate backend data types
 
 export default function UserCollection() {
@@ -25,20 +24,15 @@ export default function UserCollection() {
     }
 
     async function getOwnerNfts() {
-        const chainId: number = await web3.eth.getChainId()
-        const nftArtifact =
-            contracts[chainId.toString() as keyof typeof contracts][0]["contracts"]["Nft"]
-
-        const nftContract = new web3.eth.Contract(
-            nftArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
-            nftArtifact!.address
-        )
+        const contractHandler = await ContractHandler.getContractHandler()
+        const nftContract = await contractHandler.getNftContract()
+        const nft = new Nft(nftContract)
 
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
         onChainNftData.map(async (data) => {
             try {
-                const uri = await nftContract.methods.tokenURI(data.tokenId).call()
+                const uri = await nft.getTokenURI(parseInt(data.tokenId))
                 const currentTokenMetadata = await getTokenMetadata(uri)
                 setFullNftData((currentState) => [
                     ...currentState,
