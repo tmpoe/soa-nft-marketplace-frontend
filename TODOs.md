@@ -1,0 +1,2 @@
+-   decide is it token or is it nft?
+    -   use only one for naming
