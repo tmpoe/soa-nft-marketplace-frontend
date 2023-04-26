@@ -19,9 +19,18 @@ export type OnChainTokenData = {
 
 export type FullTokenData = OnChainTokenData & TokenMetadata
 
+export type ListingTokenData = FullTokenData & { price: string }
+
 export interface NFTCardElement {
     owner: string
     id: string
     image: string
     attributes: Attribute[]
+    price?: string
+}
+
+export interface Listing {
+    nftId: string
+    owner: string
+    price: string
 }

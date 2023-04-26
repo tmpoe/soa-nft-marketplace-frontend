@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi"
 import { GetOwnerNftsDocument, execute } from "../../.graphclient"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 import NftCard from "@/components/NftCard"
 import web3 from "../../provider/web3"
@@ -8,7 +8,7 @@ import contracts from "../../constants/abi/contracts.json"
 import { AbiItem } from "web3-utils"
 import getTokenMetadata from "@/adapters/ipfs"
 import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
-const IPFS_URL = "https://ipfs.io/ipfs/"
+import { IPFS_URL } from "@/utils/constants"
 // TODO do not duplicate backend data types
 
 export default function UserCollection() {
