@@ -1534,12 +1534,10 @@ export declare function getBuiltGraphSDK<TGlobalContext = any, TOperationContext
     GetOwnerNfts(variables?: Exact<{
         owner?: any;
     }>, options?: TOperationContext): Promise<GetOwnerNftsQuery>;
-    GetAllListings(variables?: Exact<{
-        [key: string]: never;
-    }>, options?: TOperationContext): Promise<GetAllListingsQuery>;
-    GetNListings(variables?: Exact<{
-        n?: number;
-    }>, options?: TOperationContext): Promise<GetNListingsQuery>;
+    GetPaginatedListings(variables?: Exact<{
+        get?: number;
+        skip?: number;
+    }>, options?: TOperationContext): Promise<GetPaginatedListingsQuery>;
     GetOwnerListings(variables?: Exact<{
         owner?: any;
     }>, options?: TOperationContext): Promise<GetOwnerListingsQuery>;
@@ -1556,16 +1554,11 @@ export type GetOwnerNftsQueryVariables = Exact<{
 export type GetOwnerNftsQuery = {
     nftMinteds: Array<Pick<NftMinted, 'owner' | 'tokenId'>>;
 };
-export type GetAllListingsQueryVariables = Exact<{
-    [key: string]: never;
+export type GetPaginatedListingsQueryVariables = Exact<{
+    get?: InputMaybe<Scalars['Int']>;
+    skip?: InputMaybe<Scalars['Int']>;
 }>;
-export type GetAllListingsQuery = {
-    nftListeds: Array<Pick<NftListed, 'nftId' | 'owner' | 'price'>>;
-};
-export type GetNListingsQueryVariables = Exact<{
-    n?: InputMaybe<Scalars['Int']>;
-}>;
-export type GetNListingsQuery = {
+export type GetPaginatedListingsQuery = {
     nftListeds: Array<Pick<NftListed, 'nftId' | 'owner' | 'price'>>;
 };
 export type GetOwnerListingsQueryVariables = Exact<{
@@ -1580,11 +1573,9 @@ export declare const GetLatestOwnerNftDocument: DocumentNode<GetLatestOwnerNftQu
 export declare const GetOwnerNftsDocument: DocumentNode<GetOwnerNftsQuery, Exact<{
     owner?: InputMaybe<Scalars['Bytes']>;
 }>>;
-export declare const GetAllListingsDocument: DocumentNode<GetAllListingsQuery, Exact<{
-    [key: string]: never;
-}>>;
-export declare const GetNListingsDocument: DocumentNode<GetNListingsQuery, Exact<{
-    n?: InputMaybe<Scalars['Int']>;
+export declare const GetPaginatedListingsDocument: DocumentNode<GetPaginatedListingsQuery, Exact<{
+    get?: InputMaybe<Scalars['Int']>;
+    skip?: InputMaybe<Scalars['Int']>;
 }>>;
 export declare const GetOwnerListingsDocument: DocumentNode<GetOwnerListingsQuery, Exact<{
     owner?: InputMaybe<Scalars['Bytes']>;
@@ -1593,8 +1584,7 @@ export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V,
 export declare function getSdk<C, E>(requester: Requester<C, E>): {
     GetLatestOwnerNft(variables?: GetLatestOwnerNftQueryVariables, options?: C): Promise<GetLatestOwnerNftQuery>;
     GetOwnerNfts(variables?: GetOwnerNftsQueryVariables, options?: C): Promise<GetOwnerNftsQuery>;
-    GetAllListings(variables?: GetAllListingsQueryVariables, options?: C): Promise<GetAllListingsQuery>;
-    GetNListings(variables?: GetNListingsQueryVariables, options?: C): Promise<GetNListingsQuery>;
+    GetPaginatedListings(variables?: GetPaginatedListingsQueryVariables, options?: C): Promise<GetPaginatedListingsQuery>;
     GetOwnerListings(variables?: GetOwnerListingsQueryVariables, options?: C): Promise<GetOwnerListingsQuery>;
 };
 export type Sdk = ReturnType<typeof getSdk>;

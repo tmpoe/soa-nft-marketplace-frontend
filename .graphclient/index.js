@@ -93,17 +93,11 @@ export async function getMeshOptions() {
                     },
                     location: 'GetOwnerNftsDocument.graphql'
                 }, {
-                    document: GetAllListingsDocument,
+                    document: GetPaginatedListingsDocument,
                     get rawSDL() {
-                        return printWithCache(GetAllListingsDocument);
+                        return printWithCache(GetPaginatedListingsDocument);
                     },
-                    location: 'GetAllListingsDocument.graphql'
-                }, {
-                    document: GetNListingsDocument,
-                    get rawSDL() {
-                        return printWithCache(GetNListingsDocument);
-                    },
-                    location: 'GetNListingsDocument.graphql'
+                    location: 'GetPaginatedListingsDocument.graphql'
                 }, {
                     document: GetOwnerListingsDocument,
                     get rawSDL() {
@@ -163,18 +157,9 @@ export const GetOwnerNftsDocument = gql `
   }
 }
     `;
-export const GetAllListingsDocument = gql `
-    query GetAllListings {
-  nftListeds {
-    nftId
-    owner
-    price
-  }
-}
-    `;
-export const GetNListingsDocument = gql `
-    query GetNListings($n: Int) {
-  nftListeds(first: $n) {
+export const GetPaginatedListingsDocument = gql `
+    query GetPaginatedListings($get: Int, $skip: Int) {
+  nftListeds(first: $get, skip: $skip, orderBy: nftId, orderDirection: desc) {
     nftId
     owner
     price
@@ -198,11 +183,8 @@ export function getSdk(requester) {
         GetOwnerNfts(variables, options) {
             return requester(GetOwnerNftsDocument, variables, options);
         },
-        GetAllListings(variables, options) {
-            return requester(GetAllListingsDocument, variables, options);
-        },
-        GetNListings(variables, options) {
-            return requester(GetNListingsDocument, variables, options);
+        GetPaginatedListings(variables, options) {
+            return requester(GetPaginatedListingsDocument, variables, options);
         },
         GetOwnerListings(variables, options) {
             return requester(GetOwnerListingsDocument, variables, options);

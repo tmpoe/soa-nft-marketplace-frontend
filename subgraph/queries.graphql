@@ -13,16 +13,8 @@ query GetOwnerNfts($owner: Bytes = "") {
     }
 }
 
-query GetAllListings {
-    nftListeds {
-        nftId
-        owner
-        price
-    }
-}
-
-query GetNListings($n: Int) {
-    nftListeds(first: $n) {
+query GetPaginatedListings($get: Int, $skip: Int) {
+    nftListeds(first: $get, skip: $skip, orderBy: nftId, orderDirection: desc) {
         nftId
         owner
         price
