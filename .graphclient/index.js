@@ -92,6 +92,24 @@ export async function getMeshOptions() {
                         return printWithCache(GetOwnerNftsDocument);
                     },
                     location: 'GetOwnerNftsDocument.graphql'
+                }, {
+                    document: GetAllListingsDocument,
+                    get rawSDL() {
+                        return printWithCache(GetAllListingsDocument);
+                    },
+                    location: 'GetAllListingsDocument.graphql'
+                }, {
+                    document: GetNListingsDocument,
+                    get rawSDL() {
+                        return printWithCache(GetNListingsDocument);
+                    },
+                    location: 'GetNListingsDocument.graphql'
+                }, {
+                    document: GetOwnerListingsDocument,
+                    get rawSDL() {
+                        return printWithCache(GetOwnerListingsDocument);
+                    },
+                    location: 'GetOwnerListingsDocument.graphql'
                 }
             ];
         },
@@ -145,6 +163,33 @@ export const GetOwnerNftsDocument = gql `
   }
 }
     `;
+export const GetAllListingsDocument = gql `
+    query GetAllListings {
+  nftListeds {
+    nftId
+    owner
+    price
+  }
+}
+    `;
+export const GetNListingsDocument = gql `
+    query GetNListings($n: Int) {
+  nftListeds(first: $n) {
+    nftId
+    owner
+    price
+  }
+}
+    `;
+export const GetOwnerListingsDocument = gql `
+    query GetOwnerListings($owner: Bytes = "") {
+  nftListeds(where: {owner: $owner}, orderBy: nftId, orderDirection: desc) {
+    nftId
+    owner
+    price
+  }
+}
+    `;
 export function getSdk(requester) {
     return {
         GetLatestOwnerNft(variables, options) {
@@ -152,6 +197,15 @@ export function getSdk(requester) {
         },
         GetOwnerNfts(variables, options) {
             return requester(GetOwnerNftsDocument, variables, options);
+        },
+        GetAllListings(variables, options) {
+            return requester(GetAllListingsDocument, variables, options);
+        },
+        GetNListings(variables, options) {
+            return requester(GetNListingsDocument, variables, options);
+        },
+        GetOwnerListings(variables, options) {
+            return requester(GetOwnerListingsDocument, variables, options);
         }
     };
 }

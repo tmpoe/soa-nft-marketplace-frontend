@@ -1,3 +1,4 @@
+# TODO DRY
 query GetLatestOwnerNft($owner: Bytes = "") {
     nftMinteds(where: { owner: $owner }, orderBy: tokenId, orderDirection: desc, first: 1) {
         owner
@@ -9,5 +10,29 @@ query GetOwnerNfts($owner: Bytes = "") {
     nftMinteds(where: { owner: $owner }, orderBy: tokenId, orderDirection: desc) {
         owner
         tokenId
+    }
+}
+
+query GetAllListings {
+    nftListeds {
+        nftId
+        owner
+        price
+    }
+}
+
+query GetNListings($n: Int) {
+    nftListeds(first: $n) {
+        nftId
+        owner
+        price
+    }
+}
+
+query GetOwnerListings($owner: Bytes = "") {
+    nftListeds(where: { owner: $owner }, orderBy: nftId, orderDirection: desc) {
+        nftId
+        owner
+        price
     }
 }
