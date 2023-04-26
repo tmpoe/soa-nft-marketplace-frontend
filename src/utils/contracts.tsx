@@ -45,8 +45,8 @@ export class ContractHandler {
     }
 
     async approveMarketplaceToHandleNftOwnerChange(tokenId: number, owner: string) {
-        console.log("approving marketplace to handle owner change")
-        console.log(
+        console.debug("approving marketplace to handle owner change")
+        console.debug(
             this.nftContract.options.address,
             this.nftMarketplaceContract.options.address,
             tokenId,

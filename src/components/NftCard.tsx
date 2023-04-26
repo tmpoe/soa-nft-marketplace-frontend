@@ -54,7 +54,6 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                                 onClick={() => {
                                     setShowSellingModal(true)
                                     setTokenToSell(item.id)
-                                    console.log("gugya")
                                 }}
                             >
                                 Sell

@@ -9,20 +9,20 @@ export default function SellingModal({ tokenId }: { tokenId: string }) {
     const { address } = useAccount()
 
     async function listNft(tokenId: string, price: string) {
-        console.log("list nft")
+        console.debug("list nft")
         const contractHandler = await ContractHandler.getContractHandler()
         await contractHandler.approveMarketplaceToHandleNftOwnerChange(parseInt(tokenId), address!)
 
         const nftMarketplace = contractHandler.getNftMarketplaceContract()
         const nftAddress = await contractHandler.getNftContractAddress()
 
-        console.log(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
-        console.log(nftMarketplace.methods)
+        console.debug(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
+        console.debug(nftMarketplace.methods)
 
         const result = await nftMarketplace.methods
             .listNft(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
             .send({ from: address })
-        console.log(result)
+        console.debug(result)
         EventEmitter.dispatch(Events.MODAL_CLOSED, {
             modal_name: "minting_modal",
         })

@@ -48,7 +48,7 @@ export default function UserCollection() {
                 console.error(error)
             }
         })
-        console.log("User token fullNftData: ", fullNftData)
+        console.debug("User token fullNftData: ", fullNftData)
     }
 
     useDeepCompareEffect(() => {
@@ -59,7 +59,7 @@ export default function UserCollection() {
         getOwnerNfts()
     }, [onChainNftData])
 
-    console.log("fullNftData", fullNftData)
+    console.debug("fullNftData", fullNftData)
 
     let n: NFTCardElement[] = []
     fullNftData.map((data, index) => {
@@ -70,7 +70,7 @@ export default function UserCollection() {
             attributes: data.attributes,
         })
     })
-    console.log("n", n)
+    console.debug("n", n)
     n.sort((a, b) => (a.id > b.id ? -1 : 1))
     return <NftCard posts={n} />
 }
