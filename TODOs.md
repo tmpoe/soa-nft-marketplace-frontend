@@ -1,2 +1,7 @@
 -   decide is it token or is it nft?
     -   use only one for naming
+-   refactor
+    -   use contract adapters instead of direct contract manipulation in business logic
+        -   use them everywhere, see the pain points
+    -   refine contract adapters and contract util
+        -   after seeing the weaknesses, correct them
