@@ -6,7 +6,7 @@ import NftCard from "@/components/NftCard"
 import getTokenMetadata from "@/adapters/ipfs"
 import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
-import { ContractHandler } from "@/utils/contracts"
+import { ContractHandler } from "@/adapters/contracts"
 import Nft from "@/adapters/nft"
 // TODO do not duplicate backend data types
 

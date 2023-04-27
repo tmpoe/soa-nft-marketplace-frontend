@@ -2,7 +2,7 @@ import { useAccount } from "wagmi"
 import MintingModal from "../components/MintingModal"
 import { EventEmitter, Events } from "../components/EventEmitter"
 import { useState } from "react"
-import { ContractHandler } from "@/utils/contracts"
+import { ContractHandler } from "@/adapters/contracts"
 import NftMarketplace from "@/adapters/nftMarketplace"
 
 export default function mint() {

@@ -1,7 +1,7 @@
 import React from "react"
 import { EventEmitter, Events } from "./EventEmitter"
 import { useAccount } from "wagmi"
-import { ContractHandler } from "@/utils/contracts"
+import { ContractHandler } from "@/adapters/contracts"
 import web3 from "../../provider/web3"
 
 // https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/react/modals/regular
