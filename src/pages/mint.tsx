@@ -11,10 +11,8 @@ export default function mint() {
     EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setMinting(false))
 
     async function requestMint(address: `0x${string}`) {
-        const contractHandler = await ContractHandler.getContractHandler()
-
         const nftMarketplace = new NftMarketplace(
-            await contractHandler.getNftMarketplaceContract()
+            await ContractHandler.fetchNftMarketplaceContract()
         )
         try {
             await nftMarketplace.payForNft(address)

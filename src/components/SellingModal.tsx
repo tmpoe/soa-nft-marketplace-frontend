@@ -3,6 +3,8 @@ import { EventEmitter, Events } from "./EventEmitter"
 import { useAccount } from "wagmi"
 import { ContractHandler } from "@/adapters/contracts"
 import web3 from "../../provider/web3"
+import Nft from "@/adapters/nft"
+import NftMarketplace from "@/adapters/nftMarketplace"
 
 // https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/react/modals/regular
 export default function SellingModal({ tokenId }: { tokenId: string }) {
@@ -10,19 +12,17 @@ export default function SellingModal({ tokenId }: { tokenId: string }) {
 
     async function listNft(tokenId: string, price: string) {
         console.debug("list nft")
-        const contractHandler = await ContractHandler.getContractHandler()
-        await contractHandler.approveMarketplaceToHandleNftOwnerChange(parseInt(tokenId), address!)
+        const nft = new Nft(await ContractHandler.fetchNftContract())
+        const nftMarketplace = new NftMarketplace(
+            await ContractHandler.fetchNftMarketplaceContract()
+        )
+        await nft.approveMarketplaceToHandleNftOwnerChange(
+            nftMarketplace,
+            parseInt(tokenId),
+            address!
+        )
 
-        const nftMarketplace = contractHandler.getNftMarketplaceContract()
-        const nftAddress = await contractHandler.getNftContractAddress()
-
-        console.debug(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
-        console.debug(nftMarketplace.methods)
-
-        const result = await nftMarketplace.methods
-            .listNft(parseInt(tokenId), nftAddress, web3.utils.toWei(price, "ether"))
-            .send({ from: address })
-        console.debug(result)
+        await nftMarketplace.listNft(tokenId, nft.getAddress(), price, address!)
         EventEmitter.dispatch(Events.MODAL_CLOSED, {
             modal_name: "minting_modal",
         })

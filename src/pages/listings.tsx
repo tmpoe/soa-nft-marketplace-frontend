@@ -25,9 +25,7 @@ export default function listings() {
     }
 
     async function getFullNftData() {
-        const contractHandler = await ContractHandler.getContractHandler()
-        const nftContract = await contractHandler.getNftContract()
-        const nft = new Nft(nftContract)
+        const nft = new Nft(await ContractHandler.fetchNftContract())
 
         setFullNftData([])
         listingsPaginated.map(async (listing) => {

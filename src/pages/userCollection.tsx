@@ -24,9 +24,7 @@ export default function UserCollection() {
     }
 
     async function getOwnerNfts() {
-        const contractHandler = await ContractHandler.getContractHandler()
-        const nftContract = await contractHandler.getNftContract()
-        const nft = new Nft(nftContract)
+        const nft = new Nft(await ContractHandler.fetchNftContract())
 
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
