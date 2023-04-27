@@ -12,10 +12,10 @@ export default function listings() {
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
 
-    async function getAPageOfListings(pageLength: number) {
+    async function getAPageOfListings(pageLength: number, currentPageNumber) {
         const result = await execute(GetPaginatedListingsDocument, {
             get: pageLength,
-            skip: pageLength,
+            skip: currentPageNumber * pageLength,
         })
         if (!result) {
             throw new Error(`Failed to get page of listings (pl ${pageLength})!`)
@@ -45,7 +45,7 @@ export default function listings() {
     }
 
     useEffect(() => {
-        getAPageOfListings(1)
+        getAPageOfListings(5, 0)
     }, [])
 
     useDeepCompareEffect(() => {
