@@ -1,10 +1,9 @@
-import contracts from "../../constants/abi/contracts.json"
-import { AbiItem } from "web3-utils"
 import { useAccount } from "wagmi"
-import web3 from "../../provider/web3"
 import MintingModal from "../components/MintingModal"
 import { EventEmitter, Events } from "../components/EventEmitter"
 import { useState } from "react"
+import { ContractHandler } from "@/utils/contracts"
+import NftMarketplace from "@/adapters/nftMarketplace"
 
 export default function mint() {
     const { address } = useAccount()
@@ -12,23 +11,14 @@ export default function mint() {
     EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setMinting(false))
 
     async function requestMint(address: `0x${string}`) {
-        const chainId: number = await web3.eth.getChainId()
+        const contractHandler = await ContractHandler.getContractHandler()
 
-        const nftMarketplaceArtifact =
-            contracts[chainId.toString() as keyof typeof contracts][0]["contracts"][
-                "NftMarketplace"
-            ]
-        const nftMarketplace = new web3.eth.Contract(
-            nftMarketplaceArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
-            nftMarketplaceArtifact!.address
+        const nftMarketplace = new NftMarketplace(
+            await contractHandler.getNftMarketplaceContract()
         )
         try {
-            const tx = await nftMarketplace.methods
-                .gatekeep()
-                .send({ from: address, value: web3.utils.toWei("0.01", "ether") })
-            console.debug(tx.events.NftRequested)
+            await nftMarketplace.payForNft(address)
             console.debug("Money sent!")
-            console.debug(await web3.eth.getBalance(nftMarketplaceArtifact!.address))
             const response = await fetch(`http://localhost:5000/${address}`, {
                 method: "POST",
                 headers: {
