@@ -12,7 +12,7 @@ export default function listings() {
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
 
-    async function getAPageOfListings(pageLength: number, currentPageNumber) {
+    async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         const result = await execute(GetPaginatedListingsDocument, {
             get: pageLength,
             skip: currentPageNumber * pageLength,
