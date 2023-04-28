@@ -36,6 +36,9 @@ export default class NftMarketplace {
         // Currently I query listed nfts by querying the graph. It has every listed event every
         // meaning if I cancel a listing THE EVENT WILL STAY THERE which will falsely show up
         // on the Listings page
+        // Maybe multiple graphql queries and filter?
+        // Are subqeries in serverside filtering possible?
+        // https://hygraph.com/blog/combine-graphql-queries
     }
 
     getAddress() {
