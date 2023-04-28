@@ -56,7 +56,7 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                                     setTokenToSell(item.id)
                                 }}
                             >
-                                Sell
+                                {item.isListed ? "Options" : "Sell"}
                             </button>
                         </div>
                     </div>

@@ -58,6 +58,7 @@ export default function UserCollection() {
 
     useDeepCompareEffect(() => {
         getOwnerNfts()
+        getOwnerListedNfts()
     }, [onChainNftData])
 
     console.debug("fullNftData", fullNftData)
@@ -65,6 +66,7 @@ export default function UserCollection() {
     ownerListings.map((listing) => {
         listedIds.push(listing.nftId)
     })
+    console.debug("listedIds", listedIds)
 
     let n: NFTCardElement[] = []
     fullNftData.map((data, index) => {
