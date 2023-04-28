@@ -60,6 +60,7 @@ export default function listings() {
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
             price: data.price,
+            isListed: true,
         })
     })
     console.debug(n)

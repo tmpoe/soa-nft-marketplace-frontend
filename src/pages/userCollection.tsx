@@ -1,10 +1,10 @@
 import { useAccount } from "wagmi"
-import { GetOwnerNftsDocument, execute } from "../../.graphclient"
+import { GetOwnerNftsDocument, GetOwnerListingsDocument, execute } from "../../.graphclient"
 import { useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 import NftCard from "@/components/NftCard"
 import getTokenMetadata from "@/adapters/ipfs"
-import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
+import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
 import { ContractHandler } from "@/adapters/contracts"
 import Nft from "@/adapters/nft"
@@ -14,6 +14,7 @@ export default function UserCollection() {
     const { address } = useAccount()
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
     const [fullNftData, setFullNftData] = useState<FullTokenData[]>([])
+    const [ownerListings, setOwnerListings] = useState<Listing[]>([])
 
     async function getOwnerNftData() {
         const result = await execute(GetOwnerNftsDocument, { owner: address })
@@ -43,6 +44,14 @@ export default function UserCollection() {
         console.debug("User token fullNftData: ", fullNftData)
     }
 
+    async function getOwnerListedNfts() {
+        const result = await execute(GetOwnerListingsDocument, { owner: address })
+        if (!result) {
+            throw new Error("Failed to get NFTs")
+        }
+        setOwnerListings(result.data.nftListeds)
+    }
+
     useDeepCompareEffect(() => {
         getOwnerNftData()
     }, [])
@@ -52,6 +61,10 @@ export default function UserCollection() {
     }, [onChainNftData])
 
     console.debug("fullNftData", fullNftData)
+    let listedIds: string[] = []
+    ownerListings.map((listing) => {
+        listedIds.push(listing.nftId)
+    })
 
     let n: NFTCardElement[] = []
     fullNftData.map((data, index) => {
@@ -60,6 +73,7 @@ export default function UserCollection() {
             id: data.tokenId,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
+            isListed: listedIds.includes(data.tokenId) ? true : false,
         })
     })
     console.debug("n", n)

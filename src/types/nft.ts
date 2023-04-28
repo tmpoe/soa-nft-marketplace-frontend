@@ -27,6 +27,7 @@ export interface NFTCardElement {
     image: string
     attributes: Attribute[]
     price?: string
+    isListed: boolean
 }
 
 export interface Listing {
