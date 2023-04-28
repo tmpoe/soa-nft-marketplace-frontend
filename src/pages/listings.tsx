@@ -7,8 +7,11 @@ import { useDeepCompareEffect } from "react-use"
 import Nft from "@/adapters/nft"
 import getTokenMetadata from "@/adapters/ipfs"
 import { IPFS_URL } from "@/utils/constants"
+import { useAccount } from "wagmi"
 
 export default function listings() {
+    const { address } = useAccount()
+
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
 
@@ -64,5 +67,5 @@ export default function listings() {
         })
     })
     console.debug(n)
-    return <NftCard posts={n} />
+    return <NftCard posts={n} observerAddress={address!} />
 }

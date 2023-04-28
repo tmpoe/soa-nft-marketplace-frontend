@@ -4,7 +4,13 @@ import React, { useState } from "react"
 import { EventEmitter, Events } from "../components/EventEmitter"
 import SellingModal from "./SellingModal"
 
-export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
+export default function NftCard({
+    posts,
+    observerAddress,
+}: {
+    posts: Array<NFTCardElement>
+    observerAddress: string
+}) {
     const [showSellingModal, setShowSellingModal] = useState(false)
     const [tokenToSell, setTokenToSell] = useState("")
     EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => {
@@ -56,7 +62,11 @@ export default function NftCard({ posts }: { posts: Array<NFTCardElement> }) {
                                     setTokenToSell(item.id)
                                 }}
                             >
-                                {item.isListed ? "Options" : "Sell"}
+                                {item.owner.toLowerCase() === observerAddress.toLowerCase()
+                                    ? item.isListed
+                                        ? "Options"
+                                        : "Sell"
+                                    : "Buy"}
                             </button>
                         </div>
                     </div>

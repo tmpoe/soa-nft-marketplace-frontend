@@ -80,5 +80,5 @@ export default function UserCollection() {
     })
     console.debug("n", n)
     n.sort((a, b) => (a.id > b.id ? -1 : 1))
-    return <NftCard posts={n} />
+    return <NftCard posts={n} observerAddress={address!} />
 }
