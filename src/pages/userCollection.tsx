@@ -31,7 +31,7 @@ export default function UserCollection() {
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
         onChainNftData.map(async (data) => {
             try {
-                const uri = await nft.getTokenURI(parseInt(data.tokenId))
+                const uri = await nft.getTokenURI(parseInt(data.nftId))
                 const currentTokenMetadata = await getTokenMetadata(uri)
                 setFullNftData((currentState) => [
                     ...currentState,
@@ -72,10 +72,10 @@ export default function UserCollection() {
     fullNftData.map((data, index) => {
         n.push({
             owner: data.owner,
-            id: data.tokenId,
+            id: data.nftId,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
-            isListed: listedIds.includes(data.tokenId) ? true : false,
+            isListed: listedIds.includes(data.nftId) ? true : false,
         })
     })
     console.debug("n", n)
