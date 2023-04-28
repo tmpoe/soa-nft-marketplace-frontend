@@ -35,6 +35,8 @@ export default function listings() {
             try {
                 const uri = await nft.getTokenURI(parseInt(listing.nftId))
                 const currentTokenMetadata = await getTokenMetadata(uri)
+                console.debug("currentTokenMetadata: ", listingsPaginated)
+                console.debug(listing)
 
                 setFullNftData((currentState) => [
                     ...currentState,
@@ -44,6 +46,7 @@ export default function listings() {
                 console.error(error)
             }
         })
+        console.debug("listing: ", listingsPaginated)
         console.debug("FullNftData: ", fullNftData)
     }
 
@@ -59,13 +62,13 @@ export default function listings() {
     fullNftData.map((data, index) => {
         n.push({
             owner: data.owner,
-            id: data.tokenId,
+            id: data.nftId,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
             price: data.price,
             isListed: true,
         })
     })
-    console.debug(n)
+    console.debug("posts", n)
     return <NftCard posts={n} observerAddress={address!} />
 }

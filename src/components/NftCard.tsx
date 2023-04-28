@@ -1,8 +1,8 @@
-import { NFTCardElement } from "@/types/nft"
+import { NFTCardElement, NftActionData } from "@/types/nft"
 import { cleanString } from "@/utils/string"
 import React, { useState } from "react"
 import { EventEmitter, Events } from "../components/EventEmitter"
-import SellingModal from "./SellingModal"
+import NftActionModal from "./NftActionModal"
 
 export default function NftCard({
     posts,
@@ -12,10 +12,13 @@ export default function NftCard({
     observerAddress: string
 }) {
     const [showSellingModal, setShowSellingModal] = useState(false)
-    const [tokenToSell, setTokenToSell] = useState("")
+    const [tokenToSell, setTokenToSell] = useState<NftActionData>({
+        nftId: "undefined",
+        isListed: false,
+    })
     EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => {
         setShowSellingModal(false)
-        setTokenToSell("")
+        setTokenToSell({ nftId: "undefined", isListed: false })
     })
 
     function createAttributesListElements(token: NFTCardElement) {
@@ -59,7 +62,7 @@ export default function NftCard({
                                 className="px-4 py-2 row-span-1 row-start-3 col-start-1 col-span-1 text-sm text-blue-100 bg-blue-500 rounded shadow"
                                 onClick={() => {
                                     setShowSellingModal(true)
-                                    setTokenToSell(item.id)
+                                    setTokenToSell({ nftId: item.id, isListed: item.isListed })
                                 }}
                             >
                                 {item.owner.toLowerCase() === observerAddress.toLowerCase()
@@ -71,7 +74,7 @@ export default function NftCard({
                         </div>
                     </div>
                 ))}
-                {showSellingModal && <SellingModal tokenId={tokenToSell} />}
+                {showSellingModal && <NftActionModal nftActionData={tokenToSell} />}
             </div>
         </>
     )
