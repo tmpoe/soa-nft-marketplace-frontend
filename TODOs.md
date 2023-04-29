@@ -5,3 +5,8 @@
         -   use them everywhere, see the pain points
     -   refine contract adapters and contract util
         -   after seeing the weaknesses, correct them
+-   BEFORE ANYTHING ELSE THE NEXT TIME I GO ON WITH THIS PROJECT
+    -   TEST REACT COMPONENTS
+        -   https://medium.com/swlh/a-beginners-guide-for-testing-react-function-component-part-i-5c2ceef3fbde
+-   NEXT
+    -   Add a list of the listed NFTs to the marketplace contract that you can use to query before turning to thegraph
