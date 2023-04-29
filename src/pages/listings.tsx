@@ -62,7 +62,7 @@ export default function listings() {
     fullNftData.map((data, index) => {
         n.push({
             owner: data.owner,
-            id: data.nftId,
+            id: data.nftId!,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
             price: data.price,
