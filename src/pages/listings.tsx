@@ -1,6 +1,5 @@
 import { Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
 import { useEffect, useState } from "react"
-import { GetPaginatedListingsDocument, execute } from "../../.graphclient"
 import NftCard from "@/components/NftCard"
 import { ContractHandler } from "@/adapters/contracts"
 import { useDeepCompareEffect } from "react-use"
@@ -8,6 +7,7 @@ import Nft from "@/adapters/nft"
 import getTokenMetadata from "@/adapters/ipfs"
 import { IPFS_URL } from "@/utils/constants"
 import { useAccount } from "wagmi"
+import NftMarketplaceEventDB from "@/adapters/thegraph"
 
 export default function listings() {
     const { address } = useAccount()
@@ -16,15 +16,13 @@ export default function listings() {
     const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
-        const result = await execute(GetPaginatedListingsDocument, {
-            get: pageLength,
-            skip: currentPageNumber * pageLength,
-        })
-        if (!result) {
-            throw new Error(`Failed to get page of listings (pl ${pageLength})!`)
+        try {
+            setListingsPaginated(
+                await NftMarketplaceEventDB.getAPageOfListings(pageLength, currentPageNumber)
+            )
+        } catch (error) {
+            console.error(error)
         }
-        console.debug("QL listing ", result)
-        setListingsPaginated(result.data.nftListeds)
     }
 
     async function getFullNftData() {

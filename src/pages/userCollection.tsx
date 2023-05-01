@@ -1,5 +1,4 @@
 import { useAccount } from "wagmi"
-import { GetOwnerNftsDocument, GetOwnerListingsDocument, execute } from "../../.graphclient"
 import { useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 import NftCard from "@/components/NftCard"
@@ -8,6 +7,7 @@ import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/type
 import { IPFS_URL } from "@/utils/constants"
 import { ContractHandler } from "@/adapters/contracts"
 import Nft from "@/adapters/nft"
+import NftMarketplaceEventDB from "@/adapters/thegraph"
 // TODO do not duplicate backend data types
 
 export default function UserCollection() {
@@ -17,11 +17,11 @@ export default function UserCollection() {
     const [ownerListings, setOwnerListings] = useState<Listing[]>([])
 
     async function getOwnerNftData() {
-        const result = await execute(GetOwnerNftsDocument, { owner: address })
-        if (!result) {
-            throw new Error("Failed to get NFTs")
+        try {
+            setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
+        } catch (error) {
+            console.error(error)
         }
-        setOnChainNftData(result.data.nftMinteds)
     }
 
     async function getOwnerNfts() {
@@ -50,11 +50,11 @@ export default function UserCollection() {
     }
 
     async function getOwnerListedNfts() {
-        const result = await execute(GetOwnerListingsDocument, { owner: address })
-        if (!result) {
-            throw new Error("Failed to get NFTs")
+        try {
+            setOwnerListings(await NftMarketplaceEventDB.getOwnerListedNfts(address!))
+        } catch (error) {
+            console.error(error)
         }
-        setOwnerListings(result.data.nftListeds)
     }
 
     useDeepCompareEffect(() => {
