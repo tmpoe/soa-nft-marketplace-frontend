@@ -22,9 +22,14 @@ query GetPaginatedListings($get: Int, $skip: Int) {
 }
 
 query GetOwnerListings($owner: Bytes = "") {
-    nftListeds(where: { owner: $owner }, orderBy: nftId, orderDirection: desc) {
+    activeListings(
+        where: { and: [{ owner: $owner }, { buyer: "0x000000000000000000000000000000000000000" }] }
+        orderBy: nftId
+        orderDirection: desc
+    ) {
         nftId
         owner
         price
+        buyer
     }
 }

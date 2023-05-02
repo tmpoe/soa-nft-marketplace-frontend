@@ -15,7 +15,11 @@
     -   fix OnChainData Type usage and content. Sometimes nftId sometimes tokenId can be found inside
 
 -   BEFORE ANYTHING ELSE~~ THE NEXT TIME I GO ON WITH THIS PROJECT~~
+
     -   UPDATE: Not really what I need. I need more like to test interactions with the graph - I will refactor to move out thos components and test them accordingly
     -   TEST REACT COMPONENTS
         -   https://medium.com/swlh/a-beginners-guide-for-testing-react-function-component-part-i-5c2ceef3fbde
         -   https://dev.to/bonnie/testing-functions-within-functional-react-components-1mba
+
+-   Seems I have misunderstood subgraph a bit. I need to recalc something like this
+    https://github.com/PatrickAlphaC/graph-nft-marketplace-fcc - Make IDs in schema string somehow. Int operations are finicky
