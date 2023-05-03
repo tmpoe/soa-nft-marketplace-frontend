@@ -1,15 +1,15 @@
 # TODO DRY
 query GetLatestOwnerNft($owner: Bytes = "") {
-    nftMinteds(where: { owner: $owner }, orderBy: tokenId, orderDirection: desc, first: 1) {
+    ownedNfts(where: { owner: $owner }, orderBy: nftId, orderDirection: desc, first: 1) {
         owner
-        tokenId
+        nftId
     }
 }
 
-query GetOwnerNfts($owner: Bytes = "") {
-    nftMinteds(where: { owner: $owner }, orderBy: tokenId, orderDirection: desc) {
+query GetOwnedNfts($owner: Bytes = "") {
+    ownedNfts(where: { owner: $owner }, orderBy: nftId, orderDirection: desc) {
         owner
-        tokenId
+        nftId
     }
 }
 

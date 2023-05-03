@@ -12,7 +12,7 @@
 	},
 	"devDependencies": {
 		"@graphprotocol/client-cli": "^2.2.20",
-		"@graphprotocol/graph-ts": "^0.29.3",
+		"@graphprotocol/graph-ts": "0.29.3",
 		"@metamask/providers": "^10.2.1",
 		"@types/node": "18.15.5",
 		"@types/react": "^18.0.28",
@@ -39,6 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"@apollo/client": "^3.7.11",
+		"@graphprotocol/graph-cli": "0.48",
 		"@headlessui/react": "^1.7.14",
 		"@wagmi/connectors": "^0.3.18",
 		"classnames": "^2.3.2",
