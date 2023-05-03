@@ -19,6 +19,7 @@ export default function UserCollection() {
     async function getOwnerNftData() {
         try {
             setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
+            console.log("Got the data boss", onChainNftData)
         } catch (error) {
             console.error(error)
         }
@@ -32,8 +33,8 @@ export default function UserCollection() {
         onChainNftData.map(async (data) => {
             try {
                 console.debug("GetOwnerNFTs", data)
-                console.debug(parseInt(data.tokenId!))
-                const uri = await nft.getTokenURI(parseInt(data.tokenId!))
+                console.debug(parseInt(data.nftId!))
+                const uri = await nft.getTokenURI(parseInt(data.nftId!))
                 console.debug("fos1")
                 const currentTokenMetadata = await getTokenMetadata(uri)
                 console.debug("fos2")
@@ -77,10 +78,10 @@ export default function UserCollection() {
     fullNftData.map((data, index) => {
         n.push({
             owner: data.owner,
-            id: data.tokenId!,
+            id: data.nftId!,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
-            isListed: listedIds.includes(data.tokenId!) ? true : false,
+            isListed: listedIds.includes(data.nftId!) ? true : false,
         })
     })
     console.debug("n", n)

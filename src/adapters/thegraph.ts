@@ -15,7 +15,7 @@ export default class NftMarketplaceEventDB {
         if (!result) {
             throw new Error("Failed to get latest NFT")
         }
-        return result.data.nftMinteds[0].tokenId
+        return result.data.ownedNfts[0].tokenId
     }
     static async getAPageOfListings(pageLength: number, currentPageNumber: number) {
         const result = await execute(GetPaginatedListingsDocument, {
@@ -26,7 +26,7 @@ export default class NftMarketplaceEventDB {
             throw new Error(`Failed to get page of listings (pl ${pageLength})!`)
         }
         console.debug("QL listing ", result)
-        return result.data.nftListeds
+        return result.data.activeListings
     }
 
     static async getOwnerNftData(address: string) {
@@ -34,7 +34,8 @@ export default class NftMarketplaceEventDB {
         if (!result) {
             throw new Error("Failed to get NFTs")
         }
-        return result.data.nftMinteds
+        console.log("owner nft data", result)
+        return result.data.ownedNfts
     }
 
     static async getOwnerListedNfts(address: string) {
@@ -42,6 +43,6 @@ export default class NftMarketplaceEventDB {
         if (!result) {
             throw new Error("Failed to get NFTs")
         }
-        return result.data.nftListeds
+        return result.data.activeListings
     }
 }
