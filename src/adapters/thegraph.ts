@@ -7,7 +7,6 @@ import {
 } from "../../.graphclient"
 
 export default class NftMarketplaceEventDB {
-    // DIRECT GRAPH BAD. USE STORE AND MAPPING
     private constructor() {}
 
     static async getLatestNft(address: string) {
