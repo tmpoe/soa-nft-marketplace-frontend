@@ -27,14 +27,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             setInterval(async () => {
                 try {
                     const newTokenId = await NftMarketplaceEventDB.getLatestNft(address!)
+                    console.log("Latest nft: ", newTokenId, latestTokenid)
                     if (newTokenId != latestTokenid) {
-                        console.debug("Latest nft changed!")
+                        console.log("Latest nft changed!")
                         EventEmitter.dispatch(Events.MINTING_FINISHED, {})
                         toast.success("Your NFT has been minted!")
                     }
                     setLatestTokenid(newTokenId)
                 } catch (error) {
-                    console.debug(error)
+                    console.error(error)
                 }
             }, 1000)
     }
