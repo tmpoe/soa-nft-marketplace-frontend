@@ -14,7 +14,7 @@ export default class NftMarketplaceEventDB {
         if (!result) {
             throw new Error("Failed to get latest NFT")
         }
-        return result.data.ownedNfts[0].nftId
+        return result.data.ownedNfts[0].tokenId
     }
     static async getAPageOfListings(pageLength: number, currentPageNumber: number) {
         const result = await execute(GetPaginatedListingsDocument, {

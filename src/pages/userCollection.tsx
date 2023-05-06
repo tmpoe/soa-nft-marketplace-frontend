@@ -33,8 +33,8 @@ export default function UserCollection() {
         onChainNftData.map(async (data) => {
             try {
                 console.debug("GetOwnerNFTs", data)
-                console.debug(parseInt(data.nftId!))
-                const uri = await nft.getTokenURI(parseInt(data.nftId!))
+                console.debug(parseInt(data.tokenId!))
+                const uri = await nft.getTokenURI(parseInt(data.tokenId!))
                 console.debug("fos1")
                 const currentTokenMetadata = await getTokenMetadata(uri)
                 console.debug("fos2")
@@ -70,7 +70,7 @@ export default function UserCollection() {
     console.debug("fullNftData", fullNftData)
     let listedIds: string[] = []
     ownerListings.map((listing) => {
-        listedIds.push(listing.nftId)
+        listedIds.push(listing.tokenId)
     })
     console.debug("listedIds", listedIds)
 
@@ -78,10 +78,10 @@ export default function UserCollection() {
     fullNftData.map((data, index) => {
         n.push({
             owner: data.owner,
-            id: data.nftId!,
+            id: data.tokenId!,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
-            isListed: listedIds.includes(data.nftId!) ? true : false,
+            isListed: listedIds.includes(data.tokenId!) ? true : false,
         })
     })
     console.debug("n", n)

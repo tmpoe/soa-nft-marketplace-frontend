@@ -13,7 +13,7 @@ export type TokenMetadata = {
 
 export type OnChainTokenData = {
     owner: string
-    nftId?: string
+    tokenId?: string
     tokenId?: string
     hash: string
 }
@@ -32,12 +32,12 @@ export interface NFTCardElement {
 }
 
 export interface Listing {
-    nftId: string
+    tokenId: string
     owner: string
     price: string
 }
 
 export interface NftActionData {
-    nftId: string
+    tokenId: string
     isListed: boolean
 }

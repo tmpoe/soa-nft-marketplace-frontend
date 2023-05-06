@@ -12,7 +12,7 @@
 
 -   NEXT
 
-    -   fix OnChainData Type usage and content. Sometimes nftId sometimes tokenId can be found inside
+    -   fix OnChainData Type usage and content. Sometimes tokenId sometimes tokenId can be found inside
 
 -   BEFORE ANYTHING ELSE~~ THE NEXT TIME I GO ON WITH THIS PROJECT~~
 
