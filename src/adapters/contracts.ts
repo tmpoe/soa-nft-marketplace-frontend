@@ -1,7 +1,8 @@
 import contracts from "../../constants/abi/contracts.json"
 import { AbiItem } from "web3-utils"
 import web3 from "../../provider/web3"
-import { Contract } from "web3-eth-contract"
+import Nft from "@/adapters/nft"
+import NftMarketplace from "@/adapters/nftMarketplace"
 
 export class ContractHandler {
     static async fetchNftMarketplaceContract() {
@@ -28,5 +29,13 @@ export class ContractHandler {
     static async fetchNftContractArtifact() {
         const chainId: number = await web3.eth.getChainId()
         return contracts[chainId.toString() as keyof typeof contracts][0]["contracts"]["Nft"]
+    }
+
+    static async getNftContractHandler() {
+        return new Nft(await ContractHandler.fetchNftContract())
+    }
+
+    static async getNftMarketplaceContractHandler() {
+        return new NftMarketplace(await ContractHandler.fetchNftMarketplaceContract())
     }
 }

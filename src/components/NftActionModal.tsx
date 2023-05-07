@@ -12,10 +12,8 @@ export default function NftActionModal({ nftActionData }: { nftActionData: NftAc
 
     async function listNft(tokenId: string, price: string) {
         console.debug("list nft")
-        const nft = new Nft(await ContractHandler.fetchNftContract())
-        const nftMarketplace = new NftMarketplace(
-            await ContractHandler.fetchNftMarketplaceContract()
-        )
+        const nft = await ContractHandler.getNftContractHandler()
+        const nftMarketplace = await await ContractHandler.getNftMarketplaceContractHandler()
         await nft.approveMarketplaceToHandleNftOwnerChange(
             nftMarketplace,
             parseInt(tokenId),
@@ -31,11 +29,8 @@ export default function NftActionModal({ nftActionData }: { nftActionData: NftAc
     async function cancelListing(tokenId: string) {
         try {
             console.debug("cancel listing")
-            const nft = new Nft(await ContractHandler.fetchNftContract())
-            console.debug("fos1")
-            const nftMarketplace = new NftMarketplace(
-                await ContractHandler.fetchNftMarketplaceContract()
-            )
+            const nft = await ContractHandler.getNftContractHandler()
+            const nftMarketplace = await await ContractHandler.getNftMarketplaceContractHandler()
             console.debug("fos2")
 
             await nftMarketplace.cancelListing(tokenId, nft.getAddress(), address!)
@@ -43,6 +38,14 @@ export default function NftActionModal({ nftActionData }: { nftActionData: NftAc
                 modal_name: "nft_action_modal",
             })
             console.debug("fos4")
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function buy(tokenId: string) {
+        try {
+            console.debug("buy")
         } catch (error) {
             console.error(error)
         }
@@ -92,44 +95,6 @@ export default function NftActionModal({ nftActionData }: { nftActionData: NftAc
         )
     }
 
-    function getCancelListingBody() {
-        return (
-            <div className="relative p-6 flex-auto">
-                <form>
-                    <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-                        Cancel
-                    </label>
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg
-                                aria-hidden="true"
-                                className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <button
-                            type="submit"
-                            className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            onClick={() => cancelListing(nftActionData.tokenId)}
-                        >
-                            Cancel Listing
-                        </button>
-                    </div>
-                </form>
-            </div>
-        )
-    }
-
     return (
         <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -152,7 +117,6 @@ export default function NftActionModal({ nftActionData }: { nftActionData: NftAc
                         </div>
                         {/*body*/}
                         {!nftActionData.isListed && getListingBody()}
-                        {nftActionData.isListed && getCancelListingBody()}
                     </div>
                 </div>
             </div>

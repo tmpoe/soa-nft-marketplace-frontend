@@ -1,13 +1,12 @@
 import { useAccount } from "wagmi"
 import { useState } from "react"
 import { useDeepCompareEffect } from "react-use"
-import NftCard from "@/components/NftCard"
 import getTokenMetadata from "@/adapters/ipfs"
 import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
 import { ContractHandler } from "@/adapters/contracts"
-import Nft from "@/adapters/nft"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
+import NftCardArrayCollectionView from "@/components/NftCardArrayCollectionView"
 // TODO do not duplicate backend data types
 
 export default function UserCollection() {
@@ -26,7 +25,7 @@ export default function UserCollection() {
     }
 
     async function getOwnerNfts() {
-        const nft = new Nft(await ContractHandler.fetchNftContract())
+        const nft = await ContractHandler.getNftContractHandler()
 
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
@@ -86,5 +85,5 @@ export default function UserCollection() {
     })
     console.debug("n", n)
     n.sort((a, b) => (a.id > b.id ? -1 : 1))
-    return <NftCard posts={n} observerAddress={address!} />
+    return <NftCardArrayCollectionView posts={n} observerAddress={address!} />
 }

@@ -13,8 +13,7 @@ export type TokenMetadata = {
 
 export type OnChainTokenData = {
     owner: string
-    tokenId?: string
-    tokenId?: string
+    tokenId: string
     hash: string
 }
 

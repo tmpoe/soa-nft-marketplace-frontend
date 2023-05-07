@@ -3,7 +3,6 @@ import MintingModal from "../components/MintingModal"
 import { EventEmitter, Events } from "../components/EventEmitter"
 import { useState } from "react"
 import { ContractHandler } from "@/adapters/contracts"
-import NftMarketplace from "@/adapters/nftMarketplace"
 
 export default function mint() {
     const { address } = useAccount()
@@ -11,9 +10,8 @@ export default function mint() {
     EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setMinting(false))
 
     async function requestMint(address: `0x${string}`) {
-        const nftMarketplace = new NftMarketplace(
-            await ContractHandler.fetchNftMarketplaceContract()
-        )
+        const nftMarketplace = await ContractHandler.getNftMarketplaceContractHandler()
+
         try {
             await nftMarketplace.payForNft(address)
             console.debug("Money sent!")

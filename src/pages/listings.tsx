@@ -1,17 +1,16 @@
 import { Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
 import { useEffect, useState } from "react"
-import NftCard from "@/components/NftCard"
 import { ContractHandler } from "@/adapters/contracts"
 import { useDeepCompareEffect } from "react-use"
-import Nft from "@/adapters/nft"
 import getTokenMetadata from "@/adapters/ipfs"
 import { IPFS_URL } from "@/utils/constants"
 import { useAccount } from "wagmi"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
+import NftCardArrayListingView from "@/components/NftCardArrayListingView"
 
 export default function listings() {
     const { address } = useAccount()
-
+    console.log("observerAddress: ", address)
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
 
@@ -20,18 +19,19 @@ export default function listings() {
             setListingsPaginated(
                 await NftMarketplaceEventDB.getAPageOfListings(pageLength, currentPageNumber)
             )
+            console.log("paginated listings: ", listingsPaginated)
         } catch (error) {
             console.error(error)
         }
     }
 
     async function getFullNftData() {
-        const nft = new Nft(await ContractHandler.fetchNftContract())
+        const nft = await ContractHandler.getNftContractHandler()
 
         setFullNftData([])
         listingsPaginated.map(async (listing) => {
             try {
-                const uri = await nft.getTokenURI(parseInt(listing.nftId))
+                const uri = await nft.getTokenURI(parseInt(listing.tokenId))
                 const currentTokenMetadata = await getTokenMetadata(uri)
                 console.debug("currentTokenMetadata: ", listingsPaginated)
                 console.debug(listing)
@@ -60,7 +60,7 @@ export default function listings() {
     fullNftData.map((data, index) => {
         n.push({
             owner: data.owner,
-            id: data.nftId!,
+            id: data.tokenId!,
             image: IPFS_URL + data.imageLocation,
             attributes: data.attributes,
             price: data.price,
@@ -68,5 +68,5 @@ export default function listings() {
         })
     })
     console.debug("posts", n)
-    return <NftCard posts={n} observerAddress={address!} />
+    return <NftCardArrayListingView posts={n} observerAddress={address!} />
 }

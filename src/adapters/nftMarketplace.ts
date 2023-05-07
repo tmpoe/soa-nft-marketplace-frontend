@@ -22,7 +22,6 @@ export default class NftMarketplace {
     }
 
     async cancelListing(tokenId: string, nftAddress: string, owner: string) {
-        console.debug("fos3")
         console.debug(tokenId, nftAddress, owner)
         const result = await this.contract.methods
             .cancelListing(parseInt(tokenId), nftAddress)
@@ -30,15 +29,11 @@ export default class NftMarketplace {
         console.debug("listing result", result)
     }
 
-    async getListedNfts(tokenId: string, nftAddress: string) {
-        // TODO think of something how I can do this efficiently with minimal change in the marketplace contract
-        // Problem:
-        // Currently I query listed nfts by querying the graph. It has every listed event every
-        // meaning if I cancel a listing THE EVENT WILL STAY THERE which will falsely show up
-        // on the Listings page
-        // Maybe multiple graphql queries and filter?
-        // Are subqeries in serverside filtering possible?
-        // https://hygraph.com/blog/combine-graphql-queries
+    async buyNft(tokenId: string, nftAddress: string, price: string, buyer: string) {
+        const result = await this.contract.methods
+            .buyNft(tokenId, nftAddress)
+            .send({ value: price, from: buyer })
+        console.log("buy result", result)
     }
 
     getAddress() {
