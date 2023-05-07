@@ -61,7 +61,7 @@ export default function NftCardArrayCollectionView({
                             <button
                                 className="px-4 py-2 row-span-1 row-start-3 col-start-1 col-span-1 text-sm text-blue-100 bg-blue-500 rounded shadow"
                                 onClick={() => {
-                                    if (token.isListed) {
+                                    if (!token.isListed) {
                                         setShowSellingModal(true)
                                         setTokenToHandle({
                                             tokenId: token.id,
