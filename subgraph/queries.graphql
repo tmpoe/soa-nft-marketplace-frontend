@@ -29,7 +29,9 @@ query GetPaginatedListings($get: Int, $skip: Int) {
 
 query GetOwnerListings($owner: Bytes = "") {
     activeListings(
-        where: { and: [{ owner: $owner }, { buyer: "0x000000000000000000000000000000000000000" }] }
+        where: {
+            and: [{ owner: $owner }, { buyer: "0x0000000000000000000000000000000000000000" }]
+        }
         orderBy: tokenId
         orderDirection: desc
     ) {
