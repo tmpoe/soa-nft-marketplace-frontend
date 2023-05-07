@@ -8,7 +8,7 @@ export function catAttributesHtmlListElements(token: NFTCardElement) {
         let cleanedTraitValue: string | number =
             typeof attribute.value === "string" ? cleanString(attribute.value) : attribute.value
         listElements.push(
-            <li key={attribute.trait_type}>
+            <li className="text-black" key={attribute.trait_type}>
                 {cleanedTraitType}: {cleanedTraitValue}
             </li>
         )

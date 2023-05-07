@@ -19,7 +19,7 @@ export default function NftCardArrayListingView({ posts }: { posts: Array<NFTCar
                                     Owner: {token.owner.slice(0, 8)}
                                 </h4>
                                 <div
-                                    className="rounded-lg shadow-md col-start-2 col-span-1 row-start-1 row-span-3 p-4 items-center flex"
+                                    className="rounded-lg bg-zinc-300 shadow-md col-start-2 col-span-1 row-start-1 row-span-3 p-4 items-center flex"
                                     key={`${key}_sub_card`}
                                 >
                                     <ul className="list-none space-y-4">
