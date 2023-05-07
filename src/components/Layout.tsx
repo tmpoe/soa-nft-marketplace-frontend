@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     if (newTokenId != latestTokenid) {
                         console.log("Latest nft changed!")
                         EventEmitter.dispatch(Events.MINTING_FINISHED, {})
-                        toast.success("Your NFT has been minted!")
+                        toast.success("You acquired a new NFT!")
                     }
                     setLatestTokenid(newTokenId)
                 } catch (error) {
