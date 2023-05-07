@@ -13,6 +13,13 @@ query GetOwnedNftsForOwner($owner: Bytes = "") {
     }
 }
 
+query GetNLatestNfts($n: Int) {
+    ownedNfts(orderBy: tokenId, orderDirection: desc, first: $n) {
+        owner
+        tokenId
+    }
+}
+
 query GetPaginatedListings($get: Int, $skip: Int) {
     activeListings(
         where: { buyer: "0x0000000000000000000000000000000000000000" }
