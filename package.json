@@ -43,6 +43,7 @@
 		"@headlessui/react": "^1.7.14",
 		"@wagmi/connectors": "^0.3.18",
 		"classnames": "^2.3.2",
+		"daisyui": "^2.51.6",
 		"fs": "^0.0.1-security",
 		"graphql": "^16.6.0",
 		"hash-it": "^6.0.0",

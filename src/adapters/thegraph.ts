@@ -4,6 +4,7 @@ import {
     GetOwnerListingsDocument,
     GetOwnedNftsForOwnerDocument,
     execute,
+    GetNLatestNftsDocument,
 } from "../../.graphclient"
 
 export default class NftMarketplaceEventDB {
@@ -43,5 +44,14 @@ export default class NftMarketplaceEventDB {
             throw new Error("Failed to get NFTs")
         }
         return result.data.activeListings
+    }
+
+    static async getNLatestNfts(n: number) {
+        const result = await execute(GetNLatestNftsDocument, { n: 10 })
+        if (!result) {
+            throw new Error("Failed to get latest NFTs")
+        }
+        console.log("latest nfts", result)
+        return result.data.ownedNfts
     }
 }

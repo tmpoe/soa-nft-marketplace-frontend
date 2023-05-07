@@ -6,5 +6,5 @@ module.exports = {
         "./src/components/web3/*.{js,jsx,ts,tsx}",
     ],
 
-    plugins: [],
+    plugins: [require("daisyui")],
 }
