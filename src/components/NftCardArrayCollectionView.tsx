@@ -4,6 +4,7 @@ import { EventEmitter, Events } from "./EventEmitter"
 import NftActionModal from "./NftActionModal"
 import { ContractHandler } from "@/adapters/contracts"
 import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
+import web3 from "web3"
 
 export default function NftCardArrayCollectionView({
     posts,
@@ -56,7 +57,10 @@ export default function NftCardArrayCollectionView({
                                 </ul>
                             </div>
                             <p className="mb-2 leading-normal col-start-1 col-span-2 row-span-1 row-start-2">
-                                Token Id: {token.id}
+                                Token Id: {token.id} <br />
+                                {token.isListed &&
+                                    "Price: " + web3.utils.fromWei(token.price!)}{" "}
+                                eth
                             </p>
                             <button
                                 className="px-4 py-2 row-span-1 row-start-3 col-start-1 col-span-1 text-sm text-blue-100 bg-blue-500 rounded shadow"
