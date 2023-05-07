@@ -2,7 +2,7 @@ import {
     GetLatestOwnerNftDocument,
     GetPaginatedListingsDocument,
     GetOwnerListingsDocument,
-    GetOwnedNftsDocument,
+    GetOwnedNftsForOwnerDocument,
     execute,
 } from "../../.graphclient"
 
@@ -29,7 +29,7 @@ export default class NftMarketplaceEventDB {
     }
 
     static async getOwnerNftData(address: string) {
-        const result = await execute(GetOwnedNftsDocument, { owner: address })
+        const result = await execute(GetOwnedNftsForOwnerDocument, { owner: address })
         if (!result) {
             throw new Error("Failed to get NFTs")
         }

@@ -6,7 +6,7 @@ query GetLatestOwnerNft($owner: Bytes = "") {
     }
 }
 
-query GetOwnedNfts($owner: Bytes = "") {
+query GetOwnedNftsForOwner($owner: Bytes = "") {
     ownedNfts(where: { owner: $owner }, orderBy: tokenId, orderDirection: desc) {
         owner
         tokenId
