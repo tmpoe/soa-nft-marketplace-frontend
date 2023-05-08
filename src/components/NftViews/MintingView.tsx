@@ -1,10 +1,9 @@
 import { useAccount } from "wagmi"
-import MintingModal from "../components/MintingModal"
-import { EventEmitter, Events } from "../components/EventEmitter"
+import MintingModal from "../MintingModal"
+import { EventEmitter, Events } from "../EventEmitter"
 import { useState } from "react"
 import { ContractHandlerFactory } from "@/adapters/contracts"
 import { NFTCardElement } from "@/types/nft"
-import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
 import { BasicNftView } from "./BasicNftView"
 import { NftViewActionButton } from "./NftViewActionButton"
 

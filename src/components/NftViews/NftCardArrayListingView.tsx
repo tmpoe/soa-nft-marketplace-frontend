@@ -1,8 +1,6 @@
 import { NFTCardElement } from "@/types/nft"
 import React from "react"
 import { ContractHandlerFactory } from "@/adapters/contracts"
-import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
-import web3 from "web3"
 import { BasicNftView } from "./BasicNftView"
 import { NftViewActionButton } from "./NftViewActionButton"
 

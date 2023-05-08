@@ -1,6 +1,6 @@
 import { NFTCardElement } from "@/types/nft"
 import web3 from "web3"
-import { catAttributesHtmlListElements } from "./CatAttributesHtmlListElements"
+import { catAttributesHtmlListElements } from "../CatAttributesHtmlListElements"
 
 export function BasicNftView({
     token,

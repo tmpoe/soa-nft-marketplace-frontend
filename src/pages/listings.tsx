@@ -6,7 +6,7 @@ import getTokenMetadata from "@/adapters/ipfs"
 import { IPFS_URL } from "@/utils/constants"
 import { useAccount } from "wagmi"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
-import NftCardArrayListingView from "@/components/NftCardArrayListingView"
+import NftCardArrayListingView from "@/components/NftViews/NftCardArrayListingView"
 
 export default function listings() {
     const { address } = useAccount()

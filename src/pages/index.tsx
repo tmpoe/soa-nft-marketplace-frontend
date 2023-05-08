@@ -1,7 +1,7 @@
 import { ContractHandlerFactory } from "@/adapters/contracts"
 import getTokenMetadata from "@/adapters/ipfs"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
-import NftCardArrayLandingView from "@/components/NftCardArrayLandingView"
+import NftCardArrayLandingView from "@/components/NftViews/NftCardArrayLandingView"
 import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
 import { useState } from "react"

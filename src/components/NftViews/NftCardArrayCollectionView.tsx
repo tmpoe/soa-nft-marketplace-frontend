@@ -1,10 +1,8 @@
 import { NFTCardElement, NftActionData } from "@/types/nft"
 import React, { useState } from "react"
-import { EventEmitter, Events } from "./EventEmitter"
-import NftActionModal from "./NftActionModal"
+import { EventEmitter, Events } from "../EventEmitter"
+import NftActionModal from "../NftActionModal"
 import { ContractHandlerFactory } from "@/adapters/contracts"
-import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
-import web3 from "web3"
 import { BasicNftView } from "./BasicNftView"
 import { NftViewActionButton } from "./NftViewActionButton"
 
