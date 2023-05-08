@@ -4,15 +4,18 @@ import { catAttributesHtmlListElements } from "../CatAttributesHtmlListElements"
 
 export function BasicNftView({
     token,
-    key,
+    keyId,
     actionButton,
 }: {
     token: NFTCardElement
-    key?: number
+    keyId?: number
     actionButton?: JSX.Element
 }) {
     return (
-        <div className="w-full rounded-lg shadow-md lg:max-w-sm bg-teal-700" key={key ? key : 1}>
+        <div
+            className="w-full rounded-lg shadow-md lg:max-w-sm bg-teal-700"
+            key={keyId ? keyId : 1}
+        >
             <img className="object-cover w-full h-48" src={token.image} alt="image" />
             <div className="grid gap-2 lg:grid-cols-2 grid-rows-1 col-start-1 col-span-1 p-4">
                 <div className="bg-accent rounded-lg mb-4 p-2">
@@ -26,7 +29,7 @@ export function BasicNftView({
                 </div>
                 <div
                     className="rounded-lg bg-accent shadow-md col-start-2 col-span-1 row-start-1 row-span-3 p-3 items-center flex"
-                    key={`${key}_sub_card`}
+                    key={`${keyId ? keyId : 1}_sub_card`}
                 >
                     <ul className="list-none space-y-4">
                         {...catAttributesHtmlListElements(token)}

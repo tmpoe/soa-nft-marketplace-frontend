@@ -56,7 +56,7 @@ export default function NftCardArrayCollectionView({
                 {posts.map((token: NFTCardElement, key) => (
                     <BasicNftView
                         token={token}
-                        key={key}
+                        keyId={key}
                         actionButton={
                             <NftViewActionButton
                                 text={token.isListed ? "Cancel" : "Sell"}

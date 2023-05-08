@@ -8,7 +8,7 @@ export default function NftCardArrayListingView({ posts }: { posts: Array<NFTCar
             <div className="carousel carousel-center bg-neutral rounded-box">
                 {posts.map((token: NFTCardElement, key) => (
                     <div className="carousel-item">
-                        <BasicNftView token={token} key={key} />
+                        <BasicNftView token={token} keyId={key} />
                     </div>
                 ))}
             </div>
