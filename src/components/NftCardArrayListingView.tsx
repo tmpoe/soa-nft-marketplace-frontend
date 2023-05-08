@@ -1,6 +1,6 @@
 import { NFTCardElement } from "@/types/nft"
 import React from "react"
-import { ContractHandler } from "@/adapters/contracts"
+import { ContractHandlerFactory } from "@/adapters/contracts"
 import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
 import web3 from "web3"
 
@@ -13,8 +13,8 @@ export default function NftCardArrayListingView({
 }) {
     async function cancelListing(tokenId: string) {
         try {
-            const nft = await ContractHandler.getNftContractHandler()
-            const nftMarketplace = await ContractHandler.getNftMarketplaceContractHandler()
+            const nft = await ContractHandlerFactory.getNftContractHandler()
+            const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
 
             await nftMarketplace.cancelListing(tokenId, nft.getAddress(), observerAddress!)
         } catch (error) {
@@ -23,8 +23,8 @@ export default function NftCardArrayListingView({
     }
 
     async function buy(token: NFTCardElement) {
-        const nft = await ContractHandler.getNftContractHandler()
-        const nftMarketplace = await ContractHandler.getNftMarketplaceContractHandler()
+        const nft = await ContractHandlerFactory.getNftContractHandler()
+        const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
         try {
             await nftMarketplace.buyNft(token.id, nft.getAddress(), token.price!, observerAddress)
         } catch (error) {

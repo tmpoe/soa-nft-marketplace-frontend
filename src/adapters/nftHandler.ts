@@ -1,7 +1,7 @@
 import { Contract } from "web3-eth-contract"
-import NftMarketplace from "./nftMarketplace"
+import NftMarketplaceHandler from "./nftMarketplaceHandler"
 
-export default class Nft {
+export default class NftHandler {
     private contract: Contract
     constructor(nftContract: Contract) {
         this.contract = nftContract
@@ -12,7 +12,7 @@ export default class Nft {
     }
 
     async approveMarketplaceToHandleNftOwnerChange(
-        nftMarketplaceContract: NftMarketplace,
+        nftMarketplaceContract: NftMarketplaceHandler,
         tokenId: number,
         owner: string
     ) {

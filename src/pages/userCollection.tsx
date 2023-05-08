@@ -4,7 +4,7 @@ import { useDeepCompareEffect } from "react-use"
 import getTokenMetadata from "@/adapters/ipfs"
 import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
-import { ContractHandler } from "@/adapters/contracts"
+import { ContractHandlerFactory } from "@/adapters/contracts"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayCollectionView from "@/components/NftCardArrayCollectionView"
 // TODO do not duplicate backend data types
@@ -25,7 +25,7 @@ export default function UserCollection() {
     }
 
     async function getOwnerNfts() {
-        const nft = await ContractHandler.getNftContractHandler()
+        const nft = await ContractHandlerFactory.getNftContractHandler()
 
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address

@@ -1,6 +1,6 @@
 import { Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
 import { useEffect, useState } from "react"
-import { ContractHandler } from "@/adapters/contracts"
+import { ContractHandlerFactory } from "@/adapters/contracts"
 import { useDeepCompareEffect } from "react-use"
 import getTokenMetadata from "@/adapters/ipfs"
 import { IPFS_URL } from "@/utils/constants"
@@ -26,7 +26,7 @@ export default function listings() {
     }
 
     async function getFullNftData() {
-        const nft = await ContractHandler.getNftContractHandler()
+        const nft = await ContractHandlerFactory.getNftContractHandler()
 
         setFullNftData([])
         listingsPaginated.map(async (listing) => {

@@ -2,7 +2,7 @@ import { useAccount } from "wagmi"
 import MintingModal from "../components/MintingModal"
 import { EventEmitter, Events } from "../components/EventEmitter"
 import { useState } from "react"
-import { ContractHandler } from "@/adapters/contracts"
+import { ContractHandlerFactory } from "@/adapters/contracts"
 import { NFTCardElement } from "@/types/nft"
 import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
 import web3 from "web3"
@@ -26,7 +26,7 @@ export default function MintingView() {
     }
 
     async function requestMint(address: `0x${string}`) {
-        const nftMarketplace = await ContractHandler.getNftMarketplaceContractHandler()
+        const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
 
         try {
             await nftMarketplace.payForNft(address)

@@ -2,7 +2,7 @@ import { NFTCardElement, NftActionData } from "@/types/nft"
 import React, { useState } from "react"
 import { EventEmitter, Events } from "./EventEmitter"
 import NftActionModal from "./NftActionModal"
-import { ContractHandler } from "@/adapters/contracts"
+import { ContractHandlerFactory } from "@/adapters/contracts"
 import { catAttributesHtmlListElements } from "@/components/CatAttributesHtmlListElements"
 import web3 from "web3"
 
@@ -26,8 +26,8 @@ export default function NftCardArrayCollectionView({
     async function cancelListing(tokenId: string) {
         try {
             console.debug("cancel listing")
-            const nft = await ContractHandler.getNftContractHandler()
-            const nftMarketplace = await ContractHandler.getNftMarketplaceContractHandler()
+            const nft = await ContractHandlerFactory.getNftContractHandler()
+            const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
 
             await nftMarketplace.cancelListing(tokenId, nft.getAddress(), observerAddress)
             EventEmitter.dispatch(Events.MODAL_CLOSED, {

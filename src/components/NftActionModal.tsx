@@ -1,9 +1,9 @@
 import React from "react"
 import { EventEmitter, Events } from "./EventEmitter"
 import { useAccount } from "wagmi"
-import { ContractHandler } from "@/adapters/contracts"
-import Nft from "@/adapters/nft"
-import NftMarketplace from "@/adapters/nftMarketplace"
+import { ContractHandlerFactory } from "@/adapters/contracts"
+import NftHandler from "@/adapters/nftHandler"
+import NftMarketplaceHandler from "@/adapters/nftMarketplaceHandler"
 import { NftActionData } from "@/types/nft"
 
 // https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/react/modals/regular
@@ -13,8 +13,9 @@ export default function NftActionModal({ nftActionData }: { nftActionData: NftAc
 
     async function listNft(tokenId: string) {
         console.debug("list nft")
-        const nft = await ContractHandler.getNftContractHandler()
-        const nftMarketplace = await await ContractHandler.getNftMarketplaceContractHandler()
+        const nft = await ContractHandlerFactory.getNftContractHandler()
+        const nftMarketplace =
+            await await ContractHandlerFactory.getNftMarketplaceContractHandler()
         await nft.approveMarketplaceToHandleNftOwnerChange(
             nftMarketplace,
             parseInt(tokenId),

@@ -1,4 +1,4 @@
-import { ContractHandler } from "@/adapters/contracts"
+import { ContractHandlerFactory } from "@/adapters/contracts"
 import getTokenMetadata from "@/adapters/ipfs"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayLandingView from "@/components/NftCardArrayLandingView"
@@ -21,7 +21,7 @@ export default function Index() {
     }
 
     async function getLatestNfts() {
-        const nft = await ContractHandler.getNftContractHandler()
+        const nft = await ContractHandlerFactory.getNftContractHandler()
 
         onChainNftData.map(async (data) => {
             try {
