@@ -6,7 +6,7 @@ import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/type
 import { IPFS_URL } from "@/utils/constants"
 import { ContractHandlerFactory } from "@/adapters/contracts"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
-import NftCardArrayCollectionView from "@/components/NftCardArrayCollectionView"
+import NftCardArrayCollectionView from "@/components/NftViews/NftCardArrayCollectionView"
 // TODO do not duplicate backend data types
 
 export default function UserCollection() {

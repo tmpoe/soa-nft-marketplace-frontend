@@ -6,10 +6,12 @@ import { ContractHandlerFactory } from "@/adapters/contracts"
 import { NFTCardElement } from "@/types/nft"
 import { BasicNftView } from "./BasicNftView"
 import { NftViewActionButton } from "./NftViewActionButton"
+import web3 from "../../../provider/web3"
 
 export default function MintingView() {
     const { address } = useAccount()
     const [minting, setMinting] = useState(false)
+
     EventEmitter.subscribe(Events.MODAL_CLOSED, (event) => setMinting(false))
     const dummyToken: NFTCardElement = {
         owner: "You :)",
@@ -27,11 +29,12 @@ export default function MintingView() {
 
     async function requestMint(address: `0x${string}`) {
         const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
-
+        const chainId = await web3.eth.getChainId()
         try {
-            await nftMarketplace.payForNft(address)
+            // await nftMarketplace.payForNft(address)
             console.debug("Money sent!")
-            const response = await fetch(`http://localhost:5000/${address}`, {
+            console.log("chainId", chainId)
+            const response = await fetch(`http://localhost:5000/${address}?chainId=${chainId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

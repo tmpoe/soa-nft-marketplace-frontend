@@ -1,4 +1,4 @@
-import MintingView from "@/components/MintingView"
+import MintingView from "@/components/NftViews/MintingView"
 
 export default function mint() {
     return (
