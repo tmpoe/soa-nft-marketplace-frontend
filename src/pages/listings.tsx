@@ -7,7 +7,6 @@ import { IPFS_URL } from "@/utils/constants"
 import { useAccount } from "wagmi"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayListingView from "@/components/NftViews/NftCardArrayListingView"
-import { EventEmitter, Events } from "@/components/EventEmitter"
 
 export default function listings() {
     const { address } = useAccount()
@@ -15,9 +14,6 @@ export default function listings() {
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
-    const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
-
-    EventEmitter.subscribe(Events.WALLET_CONNECTED, (event) => setIsWalletConnected(true))
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         try {
@@ -74,11 +70,10 @@ export default function listings() {
         })
     })
     console.debug("posts", n)
-    console.log(isWalletConnected)
-    if (!isWalletConnected) {
+    if (!address) {
         return (
             <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
-                Please connect your wallet...
+                Please connect your wallet.
             </p>
         )
     }
