@@ -1,6 +1,0 @@
-[submodule "ref-nftmark-pet-proj"]
-	path = ref-nftmark-pet-proj
-	url = https://github.com/tmpoe/ref-nftmark-pet-proj.git
-[submodule "ref-nftmark-pet-proj-sepolia"]
-	path = ref-nftmark-pet-proj-sepolia
-	url = https://github.com/tmpoe/ref-nftmark-pet-proj-sepolia.git
