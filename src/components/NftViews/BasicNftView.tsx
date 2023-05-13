@@ -21,7 +21,9 @@ export function BasicNftView({
                     </h4>
                     <p className="mb-2 leading-normal col-start-1 col-span-1 row-span-1 row-start-2 text-black p-2">
                         Token Id: {token.id} <br />
-                        {token.isListed && "Price: " + web3.utils.fromWei(token.price!) + " eth"}
+                        {token.isListed &&
+                            token.price &&
+                            "Price: " + web3.utils.fromWei(token.price) + " eth"}
                     </p>
                 </div>
                 <div

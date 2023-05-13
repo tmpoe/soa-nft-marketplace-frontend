@@ -7,6 +7,7 @@ import { IPFS_URL } from "@/utils/constants"
 import { ContractHandlerFactory } from "@/adapters/contracts"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayCollectionView from "@/components/NftViews/NftCardArrayCollectionView"
+import { EventEmitter, Events } from "@/components/EventEmitter"
 // TODO do not duplicate backend data types
 
 export default function UserCollection() {
@@ -14,7 +15,9 @@ export default function UserCollection() {
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
     const [fullNftData, setFullNftData] = useState<FullTokenData[]>([])
     const [ownerListings, setOwnerListings] = useState<Listing[]>([])
+    const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
 
+    EventEmitter.subscribe(Events.WALLET_CONNECTED, (event) => setIsWalletConnected(true))
     async function getOwnerNftData() {
         try {
             setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
@@ -80,5 +83,14 @@ export default function UserCollection() {
     })
     console.debug("n", n)
     n.sort((a, b) => (a.id > b.id ? -1 : 1))
-    return <NftCardArrayCollectionView posts={n} observerAddress={address!} />
+    return (
+        <div>
+            {!isWalletConnected && (
+                <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
+                    Please connect your wallet...
+                </p>
+            )}
+            <NftCardArrayCollectionView posts={n} observerAddress={address!} />
+        </div>
+    )
 }
