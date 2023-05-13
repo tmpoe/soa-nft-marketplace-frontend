@@ -1,6 +1,7 @@
 import { useAccount, useConnect, useDisconnect } from "wagmi"
 import ClientOnly from "../ClientOnly"
 import { useEffect, useState } from "react"
+import { EventEmitter, Events } from "../EventEmitter"
 
 export default function Profile() {
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
@@ -12,6 +13,7 @@ export default function Profile() {
     useEffect(() => {
         if (isConnected) {
             setIsDefinitelyConnected(true)
+            EventEmitter.dispatch(Events.WALLET_CONNECTED, {})
         } else {
             setIsDefinitelyConnected(false)
         }

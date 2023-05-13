@@ -2,6 +2,7 @@
 export enum Events {
     MINTING_FINISHED = "minting_finished",
     MODAL_CLOSED = "modal_closed",
+    WALLET_CONNECTED = "wallet_connected",
     // use an enum to keep track of events similar to action types set as variables in redux
 }
 export const EventEmitter = {

@@ -9,8 +9,10 @@ import NftMarketplaceEventDB from "@/adapters/thegraph"
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { address } = useAccount()
     let timer: any
+    EventEmitter.subscribe(Events.WALLET_CONNECTED, (event) => setIsWalletConnected(true))
 
     const [latestTokenid, setLatestTokenid] = React.useState<string>()
+    const [isWalletConnected, setIsWalletConnected] = React.useState<boolean>(false)
 
     async function initLatestNft() {
         try {
@@ -28,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 try {
                     const newTokenId = await NftMarketplaceEventDB.getLatestNft(address!)
                     console.log("Latest nft: ", newTokenId, latestTokenid)
-                    if (newTokenId != latestTokenid) {
+                    if (newTokenId != latestTokenid && isWalletConnected) {
                         console.log("Latest nft changed!")
                         EventEmitter.dispatch(Events.MINTING_FINISHED, {})
                         toast.success("You acquired a new NFT!")
@@ -42,7 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         initLatestNft()
-    }, [])
+    }, [isWalletConnected])
 
     useEffect(() => {
         updateLatestNft()
