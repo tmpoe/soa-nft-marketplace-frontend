@@ -46,7 +46,7 @@ export default function NftCardArrayListingView({
 
     return (
         <>
-            <div className="grid gap-6 lg:grid-cols-4">
+            <div className="grid gap-6 lg:grid-cols-3 m-10">
                 {posts.map((token: NFTCardElement, key) => (
                     <BasicNftView
                         token={token}

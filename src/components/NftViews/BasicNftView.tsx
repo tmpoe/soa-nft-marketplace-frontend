@@ -12,10 +12,7 @@ export function BasicNftView({
     actionButton?: JSX.Element
 }) {
     return (
-        <div
-            className="w-full rounded-lg shadow-md lg:max-w-sm bg-teal-700"
-            key={keyId ? keyId : 1}
-        >
+        <div className="w-96 rounded-lg shadow-md lg:max-w-sm bg-teal-700" key={keyId ? keyId : 1}>
             <img className="object-cover rounded-lg w-full h-48" src={token.image} alt="image" />
             <div className="grid gap-2 lg:grid-cols-2 grid-rows-1 col-start-1 col-span-1 p-4">
                 <div className="bg-accent rounded-lg mb-4 p-2">

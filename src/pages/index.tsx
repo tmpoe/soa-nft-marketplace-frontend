@@ -4,7 +4,7 @@ import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayLandingView from "@/components/NftViews/NftCardArrayLandingView"
 import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 
 export default function Index() {
@@ -38,7 +38,7 @@ export default function Index() {
         console.debug("Latest token fullNftData: ", fullNftData)
     }
 
-    useDeepCompareEffect(() => {
+    useEffect(() => {
         getNftData()
     }, [])
 

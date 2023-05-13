@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 import getTokenMetadata from "@/adapters/ipfs"
 import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/types/nft"
@@ -52,7 +52,7 @@ export default function UserCollection() {
         }
     }
 
-    useDeepCompareEffect(() => {
+    useEffect(() => {
         getOwnerNftData()
     }, [])
 
