@@ -75,7 +75,13 @@ export default function Index({
             <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
                 See the latest cute cats who found their new home
             </p>
-            <NftCardArrayLandingView posts={n} />
+
+            {n.length > 0 && <NftCardArrayLandingView posts={n} />}
+            {n.length == 0 && (
+                <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
+                    Loading...
+                </p>
+            )}
         </div>
     )
 }
