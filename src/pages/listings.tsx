@@ -1,4 +1,4 @@
-import { Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
+import { FullTokenData, Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
 import { useEffect, useState } from "react"
 import { ContractHandlerFactory } from "@/adapters/contracts"
 import { useDeepCompareEffect } from "react-use"
@@ -8,11 +8,17 @@ import { useAccount } from "wagmi"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayListingView from "@/components/NftViews/NftCardArrayListingView"
 
-export default function listings() {
+export default function listings({
+    fullNftData,
+    ownerListings,
+}: {
+    fullNftData: FullTokenData[]
+    ownerListings: Listing[]
+}) {
     const { address } = useAccount()
     console.log("observerAddress: ", address)
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
-    const [fullNftData, setFullNftData] = useState<ListingTokenData[]>([])
+    const [fullNftDataAll, setFullNftDataAll] = useState<ListingTokenData[]>([])
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
@@ -33,7 +39,7 @@ export default function listings() {
     async function getFullNftData() {
         const nft = await ContractHandlerFactory.getNftContractHandler()
 
-        setFullNftData([])
+        setFullNftDataAll([])
         listingsPaginated.map(async (listing) => {
             try {
                 const uri = await nft.getTokenURI(parseInt(listing.tokenId))
@@ -41,7 +47,7 @@ export default function listings() {
                 console.debug("currentTokenMetadata: ", listingsPaginated)
                 console.debug(listing)
 
-                setFullNftData((currentState) => [
+                setFullNftDataAll((currentState) => [
                     ...currentState,
                     { ...currentTokenMetadata, ...listing },
                 ])
@@ -50,7 +56,7 @@ export default function listings() {
             }
         })
         console.debug("listing: ", listingsPaginated)
-        console.debug("FullNftData: ", fullNftData)
+        console.debug("FullNftData: ", fullNftDataAll)
     }
 
     useEffect(() => {
@@ -63,7 +69,7 @@ export default function listings() {
     }, [listingsPaginated])
 
     let n: NFTCardElement[] = []
-    fullNftData.map((data, index) => {
+    fullNftDataAll.map((data, index) => {
         n.push({
             owner: data.owner,
             id: data.tokenId!,

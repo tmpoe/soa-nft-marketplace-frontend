@@ -1,72 +1,17 @@
 import { useAccount } from "wagmi"
-import { useEffect, useState } from "react"
-import { useDeepCompareEffect } from "react-use"
-import getTokenMetadata from "@/adapters/ipfs"
-import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/types/nft"
+import { FullTokenData, Listing, NFTCardElement } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
-import { ContractHandlerFactory } from "@/adapters/contracts"
-import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayCollectionView from "@/components/NftViews/NftCardArrayCollectionView"
 // TODO do not duplicate backend data types
 
-export default function UserCollection() {
+export default function UserCollection({
+    fullNftData,
+    ownerListings,
+}: {
+    fullNftData: FullTokenData[]
+    ownerListings: Listing[]
+}) {
     const { address } = useAccount()
-    const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
-    const [fullNftData, setFullNftData] = useState<FullTokenData[]>([])
-    const [ownerListings, setOwnerListings] = useState<Listing[]>([])
-
-    async function getOwnerNftData() {
-        try {
-            const data = await NftMarketplaceEventDB.getOwnerNftData(address!)
-
-            if (data) {
-                setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
-                console.log("Got the data boss", onChainNftData)
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    async function getOwnerNfts() {
-        const nft = await ContractHandlerFactory.getNftContractHandler()
-
-        // get owner nfts
-        // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
-        onChainNftData.map(async (data) => {
-            try {
-                const uri = await nft.getTokenURI(parseInt(data.tokenId!))
-                const currentTokenMetadata = await getTokenMetadata(uri)
-                setFullNftData((currentState) => [
-                    ...currentState,
-                    { ...currentTokenMetadata, ...data },
-                ])
-            } catch (error) {
-                console.error(error)
-            }
-        })
-        console.debug("User token fullNftData: ", fullNftData)
-    }
-
-    async function getOwnerListedNfts() {
-        try {
-            const data = await NftMarketplaceEventDB.getOwnerListedNfts(address!)
-            if (data) {
-                setOwnerListings(await NftMarketplaceEventDB.getOwnerListedNfts(address!))
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    useEffect(() => {
-        getOwnerNftData()
-    }, [])
-
-    useDeepCompareEffect(() => {
-        getOwnerNfts()
-        getOwnerListedNfts()
-    }, [onChainNftData])
 
     console.debug("fullNftData", fullNftData)
     let listedIds: string[] = []

@@ -2,14 +2,20 @@ import { ContractHandlerFactory } from "@/adapters/contracts"
 import getTokenMetadata from "@/adapters/ipfs"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayLandingView from "@/components/NftViews/NftCardArrayLandingView"
-import { FullTokenData, NFTCardElement, OnChainTokenData } from "@/types/nft"
+import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/types/nft"
 import { IPFS_URL } from "@/utils/constants"
 import { useEffect, useState } from "react"
 import { useDeepCompareEffect } from "react-use"
 
-export default function Index() {
+export default function Index({
+    fullNftData,
+    ownerListings,
+}: {
+    fullNftData: FullTokenData[]
+    ownerListings: Listing[]
+}) {
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
-    const [fullNftData, setFullNftData] = useState<FullTokenData[]>([])
+    const [fullNftDataPreview, setFullNftDataPreview] = useState<FullTokenData[]>([])
 
     async function getNftData() {
         try {
@@ -27,7 +33,7 @@ export default function Index() {
             try {
                 const uri = await nft.getTokenURI(parseInt(data.tokenId!))
                 const currentTokenMetadata = await getTokenMetadata(uri)
-                setFullNftData((currentState) => [
+                setFullNftDataPreview((currentState) => [
                     ...currentState,
                     { ...currentTokenMetadata, ...data },
                 ])
@@ -35,7 +41,7 @@ export default function Index() {
                 console.error(error)
             }
         })
-        console.debug("Latest token fullNftData: ", fullNftData)
+        console.debug("Latest token fullNftData: ", fullNftDataPreview)
     }
 
     useEffect(() => {
@@ -47,7 +53,7 @@ export default function Index() {
     }, [onChainNftData])
 
     let n: NFTCardElement[] = []
-    fullNftData.map((data, index) => {
+    fullNftDataPreview.map((data, index) => {
         n.push({
             owner: data.owner,
             id: data.tokenId!,
