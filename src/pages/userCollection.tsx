@@ -17,8 +17,12 @@ export default function UserCollection() {
 
     async function getOwnerNftData() {
         try {
-            setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
-            console.log("Got the data boss", onChainNftData)
+            const data = await NftMarketplaceEventDB.getOwnerNftData(address!)
+
+            if (data) {
+                setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
+                console.log("Got the data boss", onChainNftData)
+            }
         } catch (error) {
             console.error(error)
         }
@@ -46,7 +50,10 @@ export default function UserCollection() {
 
     async function getOwnerListedNfts() {
         try {
-            setOwnerListings(await NftMarketplaceEventDB.getOwnerListedNfts(address!))
+            const data = await NftMarketplaceEventDB.getOwnerListedNfts(address!)
+            if (data) {
+                setOwnerListings(await NftMarketplaceEventDB.getOwnerListedNfts(address!))
+            }
         } catch (error) {
             console.error(error)
         }
