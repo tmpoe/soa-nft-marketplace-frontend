@@ -8,7 +8,8 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"buildGraph": "yarn run graphclient build --fileType js && echo throws error for ts on its own generated file"
+		"buildGraph": "yarn run graphclient build --fileType js && echo throws error for ts on its own generated file",
+		"prod": "next build && next start"
 	},
 	"devDependencies": {
 		"@graphprotocol/client-cli": "^2.2.20",
