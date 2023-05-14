@@ -31,7 +31,7 @@ export default function MintingView() {
         const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
         const chainId = await web3.eth.getChainId()
         try {
-            // await nftMarketplace.payForNft(address)
+            await nftMarketplace.payForNft(address)
             console.debug("Money sent!")
             console.log("chainId", chainId)
             const response = await fetch(`http://localhost:5000/${address}?chainId=${chainId}`, {

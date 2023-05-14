@@ -8,9 +8,13 @@ export default class NftMarketplaceHandler {
     }
 
     async payForNft(address: string) {
-        const tx = await this.contract.methods
-            .gatekeep()
-            .send({ from: address, value: web3.utils.toWei("0.01", "ether") })
+        const tx = await this.contract.methods.gatekeep().send({
+            from: address,
+            value: web3.utils.toWei(
+                (await this.contract.methods.getMintingFee()).toString(),
+                "ether"
+            ),
+        })
         console.debug(tx.events.NftRequested)
     }
 
