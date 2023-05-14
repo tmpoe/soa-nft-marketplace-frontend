@@ -6,6 +6,7 @@ import { FullTokenData, Listing, NFTCardElement, OnChainTokenData } from "@/type
 import { IPFS_URL } from "@/utils/constants"
 import { useEffect, useState } from "react"
 import { useDeepCompareEffect } from "react-use"
+import Link from "next/link"
 
 export default function Index({
     fullNftData,
@@ -67,19 +68,27 @@ export default function Index({
     return (
         <div className="p-10">
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">
-                Welcome to cat in the bag!
+                Welcome to Cat in the Summoning Bag!
             </h1>
             <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
-                Let luck be on your side and get the cutest cat out of the bag!
-            </p>
-            <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
-                See the latest cute cats who found their new home
+                Let luck be on your side and get the cutest Cat out of the Summoning Bag!
             </p>
 
-            {n.length > 0 && <NftCardArrayLandingView posts={n} />}
+            {n.length > 0 && (
+                <div>
+                    <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
+                        See the latest cute Cats who found their new home
+                    </p>
+                    <NftCardArrayLandingView posts={n} />
+                </div>
+            )}
             {n.length == 0 && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
-                    Loading...
+                    No Cats have been summoned yet. Be the first one to{" "}
+                    <Link href="summon" className="text-teal-600">
+                        summon
+                    </Link>
+                    !
                 </p>
             )}
         </div>

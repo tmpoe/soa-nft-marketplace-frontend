@@ -52,7 +52,11 @@ export default function MintingView() {
             <BasicNftView
                 token={dummyToken}
                 actionButton={
-                    <NftViewActionButton text="Mint" onClick={requestMint} onClickArg={address!} />
+                    <NftViewActionButton
+                        text="Summon"
+                        onClick={requestMint}
+                        onClickArg={address!}
+                    />
                 }
             />
 

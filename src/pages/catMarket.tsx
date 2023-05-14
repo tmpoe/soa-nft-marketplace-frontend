@@ -8,7 +8,7 @@ import { useAccount } from "wagmi"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayListingView from "@/components/NftViews/NftCardArrayListingView"
 
-export default function listings({
+export default function CatMarket({
     fullNftData,
     ownerListings,
 }: {
@@ -98,7 +98,7 @@ export default function listings({
             )}
             {n.length === 0 && isLoaded && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
-                    No Listings at the moment, come back later!
+                    No Cats to buy at the moment, come back later!
                 </p>
             )}
         </div>
