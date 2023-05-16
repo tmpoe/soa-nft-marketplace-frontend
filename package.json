@@ -39,20 +39,15 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@apollo/client": "^3.7.11",
 		"@graphprotocol/graph-cli": "0.48",
 		"@headlessui/react": "^1.7.14",
 		"@wagmi/connectors": "^0.3.18",
-		"classnames": "^2.3.2",
 		"daisyui": "^2.51.6",
 		"fs": "^0.0.1-security",
 		"graphql": "^16.6.0",
-		"hash-it": "^6.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hot-toast": "^2.4.0",
-		"react-icons": "^4.8.0",
-		"react-scripts": "5.0.1",
 		"react-use": "^17.4.0",
 		"web3": "^1.9.0"
 	}
