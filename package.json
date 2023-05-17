@@ -9,7 +9,9 @@
 		"build": "next build",
 		"start": "next start",
 		"buildGraph": "yarn run graphclient build --fileType js && echo throws error for ts on its own generated file",
-		"prod": "next build && next start"
+		"prod": "next build && next start",
+		"buildImage": "docker build -t soa-nft-marketplace-frontend",
+		"docker": "docker run -p 3000:3000 soa-nft-marketplace-frontend"
 	},
 	"devDependencies": {
 		"@graphprotocol/client-cli": "^2.2.20",
