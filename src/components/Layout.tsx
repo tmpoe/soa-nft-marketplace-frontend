@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     let timer: any
     EventEmitter.subscribe(Events.WALLET_CONNECTED, (event) => setIsWalletConnected(true))
 
-    const [latestTokenid, setLatestTokenid] = useState<string>()
+    const [numberOfTokens, setNumberOfTokens] = useState<number>(0)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
 
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
@@ -44,32 +44,26 @@ export default function Layout({ children }: { children: ReactNode }) {
         return children.map((childElement) => addPropsToReactElement(childElement))
     }
 
-    async function initLatestNft() {
-        try {
-            const tokenId = await NftMarketplaceEventDB.getLatestNft(address!)
-            setLatestTokenid(tokenId)
-        } catch (error) {
-            console.debug(error)
-        }
-    }
-
-    function updateLatestNft() {
+    function updateNumberOfNfts() {
         timer =
             !timer &&
             setInterval(async () => {
                 try {
-                    const newTokenId = await NftMarketplaceEventDB.getLatestNft(address!)
-                    console.log("Latest nft: ", newTokenId, latestTokenid)
-                    if (newTokenId != latestTokenid && isWalletConnected) {
-                        console.log("Latest nft changed!")
+                    const currentNumTokens = (
+                        await NftMarketplaceEventDB.getOwnerNftData(address!)
+                    ).length
+                    console.log("Latest nft number: ", currentNumTokens, numberOfTokens)
+                    if (currentNumTokens > numberOfTokens && isWalletConnected) {
                         EventEmitter.dispatch(Events.MINTING_FINISHED, {})
                         toast.success("You acquired a new NFT!")
+                    } else if (currentNumTokens < numberOfTokens && isWalletConnected) {
+                        toast.success("You sold an NFT!")
                     }
-                    setLatestTokenid(newTokenId)
+                    setNumberOfTokens(currentNumTokens)
                 } catch (error) {
                     console.error(error)
                 }
-            }, 1000)
+            }, 5000)
     }
 
     async function getOwnerNftData() {
@@ -77,8 +71,9 @@ export default function Layout({ children }: { children: ReactNode }) {
             const data = await NftMarketplaceEventDB.getOwnerNftData(address!)
 
             if (data) {
-                setOnChainNftData(await NftMarketplaceEventDB.getOwnerNftData(address!))
-                console.log("Got the data boss", onChainNftData)
+                console.log("Got the data boss", data)
+                setOnChainNftData(data)
+                console.log("Set the data boss", onChainNftData)
             }
         } catch (error) {
             console.error(error)
@@ -117,14 +112,13 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
-        initLatestNft()
         getOwnerNftData()
     }, [isWalletConnected])
 
     useEffect(() => {
-        updateLatestNft()
+        updateNumberOfNfts()
         return () => clearInterval(timer)
-    }, [latestTokenid])
+    }, [numberOfTokens])
 
     useDeepCompareEffect(() => {
         getOwnerNfts()
