@@ -10,7 +10,7 @@
 		"start": "next start",
 		"buildGraph": "yarn run graphclient build --fileType js && echo throws error for ts on its own generated file",
 		"prod": "next build && next start",
-		"buildImage": "docker build -t soa-nft-marketplace-frontend .",
+		"buildImage": "docker build -t soa-nft-marketplace-frontend $(for i in `cat .env.local`; do out+=\"--build-arg $i \" ; done; echo $out;out=\"\") .",
 		"docker": "docker run -p 3000:3000 soa-nft-marketplace-frontend"
 	},
 	"devDependencies": {

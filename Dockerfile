@@ -40,6 +40,12 @@ ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+ARG REACT_APP_SEPOLIA_RPC_URL
+ARG NEXT_PUBLIC_IPFS_SUBDOMAIN
+
+ENV REACT_APP_SEPOLIA_RPC_URL=$REACT_APP_SEPOLIA_RPC_URL
+ENV NEXT_PUBLIC_IPFS_SUBDOMAIN=$NEXT_PUBLIC_IPFS_SUBDOMAIN
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
