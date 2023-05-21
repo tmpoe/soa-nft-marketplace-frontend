@@ -27,6 +27,7 @@ export default function MintingView() {
         isListed: false,
     }
 
+    // TODO why does it try to fetch frontend_host/backend_host/mint?????
     async function requestMint(address: `0x${string}`) {
         const nftMarketplace = await ContractHandlerFactory.getNftMarketplaceContractHandler()
         const chainId = await web3.eth.getChainId()
@@ -34,12 +35,15 @@ export default function MintingView() {
             await nftMarketplace.payForNft(address)
             console.debug("Money sent!")
             console.log("chainId", chainId)
-            const response = await fetch(`http://localhost:5000/${address}?chainId=${chainId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                },
-            })
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/${address}?chainId=${chainId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    },
+                }
+            )
             console.debug(response)
             console.debug(await response.text())
             setMinting(true)
