@@ -43,6 +43,7 @@
 	"dependencies": {
 		"@graphprotocol/graph-cli": "0.48",
 		"@headlessui/react": "^1.7.14",
+		"@heroicons/react": "^2.0.18",
 		"@wagmi/connectors": "^0.3.18",
 		"daisyui": "^2.51.6",
 		"fs": "^0.0.1-security",
@@ -51,6 +52,7 @@
 		"react-dom": "^18.2.0",
 		"react-hot-toast": "^2.4.0",
 		"react-use": "^17.4.0",
+		"usehooks-ts": "^2.9.1",
 		"web3": "^1.9.0"
 	}
 }
