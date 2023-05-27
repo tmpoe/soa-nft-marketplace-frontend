@@ -18,10 +18,12 @@ export default function Index({
 }) {
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
     const [fullNftDataPreview, setFullNftDataPreview] = useState<FullTokenData[]>([])
+    const [numQuery, setNumQuery] = useState<number>(0)
 
     async function getNftData() {
         try {
             setOnChainNftData(await NftMarketplaceEventDB.getNLatestNfts(10))
+            setNumQuery(numQuery + 1)
             console.log("Got the data boss", onChainNftData)
         } catch (error) {
             console.error(error)
@@ -83,7 +85,16 @@ export default function Index({
                     <NftCardArrayLandingView posts={n} />
                 </div>
             )}
-            {n.length == 0 && <Spinner />}
+            {n.length == 0 && numQuery == 1 && <Spinner />}
+            {n.length == 0 && numQuery > 1 && (
+                <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
+                    No Cats have been summoned yet. Be the first one to{" "}
+                    <Link href="summon" className="text-teal-600">
+                        summon
+                    </Link>
+                    !
+                </p>
+            )}
         </div>
     )
 }

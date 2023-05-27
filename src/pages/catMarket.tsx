@@ -7,6 +7,7 @@ import { IPFS_URL } from "@/utils/constants"
 import { useAccount } from "wagmi"
 import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayListingView from "@/components/NftViews/NftCardArrayListingView"
+import { Spinner } from "@/components/Spinner"
 
 export default function CatMarket({
     fullNftData,
@@ -19,7 +20,7 @@ export default function CatMarket({
     console.log("observerAddress: ", address)
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftDataAll, setFullNftDataAll] = useState<ListingTokenData[]>([])
-    const [isLoaded, setIsLoaded] = useState<boolean>(false)
+    const [numQuery, setNumQuery] = useState<number>(0)
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         try {
@@ -29,6 +30,7 @@ export default function CatMarket({
             )
             if (paginated) {
                 setListingsPaginated(paginated)
+                setNumQuery(numQuery + 1)
             }
             console.log("paginated listings: ", listingsPaginated)
         } catch (error) {
@@ -61,7 +63,6 @@ export default function CatMarket({
 
     useEffect(() => {
         getAPageOfListings(5, 0)
-        setIsLoaded(true)
     }, [])
 
     useDeepCompareEffect(() => {
@@ -91,12 +92,8 @@ export default function CatMarket({
     return (
         <div>
             {n.length > 0 && <NftCardArrayListingView posts={n} observerAddress={address!} />}
-            {n.length === 0 && !isLoaded && (
-                <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
-                    Loading...
-                </p>
-            )}
-            {n.length === 0 && isLoaded && (
+            {n.length === 0 && numQuery == 1 && <Spinner />}
+            {n.length === 0 && numQuery > 1 && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
                     No Cats to buy at the moment, come back later!
                 </p>
