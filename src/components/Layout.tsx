@@ -19,6 +19,9 @@ export default function Layout({ children }: { children: ReactNode }) {
     const { address } = useAccount()
     let timer: any
     EventEmitter.subscribe(Events.WALLET_CONNECTED, (event) => setIsWalletConnected(true))
+    EventEmitter.subscribe(Events.WALLET_DISCONNECTED, (event) => {
+        reset()
+    })
 
     const [numberOfTokens, setNumberOfTokens] = useState<number>(0)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
@@ -67,7 +70,9 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     async function getOwnerNftData() {
+        if (!isWalletConnected) return
         try {
+            console.log("Getting owner nft data")
             const data = await NftMarketplaceEventDB.getOwnerNftData(address!)
 
             if (data) {
@@ -85,6 +90,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
+        console.log("Getting owner nfts", onChainNftData)
         onChainNftData.map(async (data) => {
             try {
                 const uri = await nft.getTokenURI(parseInt(data.tokenId!))
@@ -109,6 +115,13 @@ export default function Layout({ children }: { children: ReactNode }) {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    function reset() {
+        setIsWalletConnected(false)
+        setOnChainNftData([])
+        setFullNftData([])
+        setOwnerListings([])
     }
 
     useEffect(() => {

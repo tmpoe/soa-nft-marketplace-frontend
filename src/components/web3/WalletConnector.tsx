@@ -25,7 +25,14 @@ export default function Profile() {
                 <div>
                     Connected to {address?.slice(0, 8)}
                     <br />
-                    <button onClick={() => disconnect()}>Disconnect</button>
+                    <button
+                        onClick={() => {
+                            disconnect()
+                            EventEmitter.dispatch(Events.WALLET_DISCONNECTED, {})
+                        }}
+                    >
+                        Disconnect
+                    </button>
                 </div>
             </ClientOnly>
         )
