@@ -34,7 +34,7 @@ export default class NftMarketplaceEventDB {
         if (!result.data) {
             throw new Error("Failed to get NFTs")
         }
-        console.log("owner nft data", result)
+        console.debug("owner nft data", result)
         return result.data.ownedNfts
     }
 
@@ -51,7 +51,7 @@ export default class NftMarketplaceEventDB {
         if (!result.data) {
             throw new Error("Failed to get latest NFTs")
         }
-        console.log("latest nfts", result)
+        console.debug("latest nfts", result)
         return result.data.ownedNfts
     }
 }

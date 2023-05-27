@@ -9,9 +9,7 @@ export default class NftMarketplaceHandler {
 
     async payForNft(address: string) {
         const mintingFee = await this.contract.methods.getMintingFee().call()
-        console.log("Gutya")
         console.debug(process.env.NEXT_PUBLIC_BACKEND_URL)
-        console.debug("minting fee", mintingFee)
         const tx = await this.contract.methods.gatekeep().send({
             from: address,
             value: mintingFee,
@@ -38,7 +36,7 @@ export default class NftMarketplaceHandler {
         const result = await this.contract.methods
             .buyNft(tokenId, nftAddress)
             .send({ value: price, from: buyer })
-        console.log("buy result", result)
+        console.debug("buy result", result)
     }
 
     getAddress() {

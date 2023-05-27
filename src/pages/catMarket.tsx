@@ -17,7 +17,7 @@ export default function CatMarket({
     ownerListings: Listing[]
 }) {
     const { address } = useAccount()
-    console.log("observerAddress: ", address)
+    console.debug("observerAddress: ", address)
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftDataAll, setFullNftDataAll] = useState<ListingTokenData[]>([])
     const [numQuery, setNumQuery] = useState<number>(0)
@@ -32,7 +32,7 @@ export default function CatMarket({
                 setListingsPaginated(paginated)
                 setNumQuery(numQuery + 1)
             }
-            console.log("paginated listings: ", listingsPaginated)
+            console.debug("paginated listings: ", listingsPaginated)
         } catch (error) {
             console.error(error)
         }

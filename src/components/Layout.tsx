@@ -55,7 +55,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     const currentNumTokens = (
                         await NftMarketplaceEventDB.getOwnerNftData(address!)
                     ).length
-                    console.log("Latest nft number: ", currentNumTokens, numberOfTokens)
+                    console.debug("Latest nft number: ", currentNumTokens, numberOfTokens)
                     if (currentNumTokens > numberOfTokens && isWalletConnected) {
                         EventEmitter.dispatch(Events.MINTING_FINISHED, {})
                         toast.success("You acquired a new NFT!")
@@ -72,13 +72,10 @@ export default function Layout({ children }: { children: ReactNode }) {
     async function getOwnerNftData() {
         if (!isWalletConnected) return
         try {
-            console.log("Getting owner nft data")
             const data = await NftMarketplaceEventDB.getOwnerNftData(address!)
 
             if (data) {
-                console.log("Got the data boss", data)
                 setOnChainNftData(data)
-                console.log("Set the data boss", onChainNftData)
             }
         } catch (error) {
             console.error(error)
@@ -90,7 +87,6 @@ export default function Layout({ children }: { children: ReactNode }) {
 
         // get owner nfts
         // https://ethereum.stackexchange.com/questions/68438/erc721-how-to-get-the-owned-tokens-of-an-address
-        console.log("Getting owner nfts", onChainNftData)
         onChainNftData.map(async (data) => {
             try {
                 const uri = await nft.getTokenURI(parseInt(data.tokenId!))

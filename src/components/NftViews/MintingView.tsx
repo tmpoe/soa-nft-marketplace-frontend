@@ -34,7 +34,7 @@ export default function MintingView() {
         try {
             await nftMarketplace.payForNft(address)
             console.debug("Money sent!")
-            console.log("chainId", chainId)
+            console.debug("chainId", chainId)
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/${address}?chainId=${chainId}`,
                 {

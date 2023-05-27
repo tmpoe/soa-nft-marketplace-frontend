@@ -24,7 +24,7 @@ export default function Index({
         try {
             setOnChainNftData(await NftMarketplaceEventDB.getNLatestNfts(10))
             setNumQuery(numQuery + 1)
-            console.log("Got the data boss", onChainNftData)
+            console.debug("Got the data boss", onChainNftData)
         } catch (error) {
             console.error(error)
         }
