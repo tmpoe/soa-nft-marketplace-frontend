@@ -2,7 +2,6 @@
 
     -   use only one for naming
 
--   fix dropdown menu
 -   use custom cat art
 -   refine
     -   not connected etc types of messages
