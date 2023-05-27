@@ -16,7 +16,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ")
 }
 
-export default function Header() {
+export default function NavigationBar() {
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (

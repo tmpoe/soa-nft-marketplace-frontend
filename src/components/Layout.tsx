@@ -1,4 +1,4 @@
-import Header from "./Header"
+import NavigationBar from "./NavigationBar"
 import { EventEmitter, Events } from "./EventEmitter"
 import React, { ReactNode, useEffect, useState } from "react"
 import { useAccount } from "wagmi"
@@ -127,7 +127,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
     return (
         <div>
-            <Header />
+            <NavigationBar />
             {renderChildren()}
             <InfoToaster />
         </div>
