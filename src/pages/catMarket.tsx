@@ -86,7 +86,11 @@ export default function CatMarket() {
     return (
         <div>
             {n.length > 0 && <NftCardArrayListingView posts={n} observerAddress={address!} />}
-            {n.length === 0 && numQuery == 1 && <Spinner />}
+            {n.length === 0 && numQuery == 1 && (
+                <div className="p-10">
+                    <Spinner />
+                </div>
+            )}
             {n.length === 0 && numQuery > 1 && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
                     No Cats to buy at the moment, come back later!

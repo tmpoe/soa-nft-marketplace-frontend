@@ -79,7 +79,11 @@ export default function Index() {
                     <NftCardArrayLandingView posts={n} />
                 </div>
             )}
-            {n.length == 0 && numQuery == 1 && <Spinner />}
+            {n.length == 0 && numQuery == 1 && (
+                <div className="p-10">
+                    <Spinner />
+                </div>
+            )}
             {n.length == 0 && numQuery > 1 && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
                     No Cats have been summoned yet. Be the first one to{" "}
