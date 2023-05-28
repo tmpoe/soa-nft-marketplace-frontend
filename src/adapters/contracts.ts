@@ -6,8 +6,11 @@ import NftMarketplaceHandler from "@/adapters/nftMarketplaceHandler"
 
 export class ContractHandlerFactory {
     static async fetchNftContractArtifact() {
-        const chainId: number = await web3.eth.getChainId()
-        return contracts[chainId.toString() as keyof typeof contracts][0]["contracts"]["Nft"]
+        return this._getContractArtifact("Nft")
+    }
+
+    static async fetchNftMarketplaceContractArtifact() {
+        return this._getContractArtifact("NftMarketplace")
     }
 
     static async getNftContractHandler() {
@@ -20,12 +23,15 @@ export class ContractHandlerFactory {
         )
     }
 
-    static async _fetchNftMarketplaceContract() {
+    static async _getContractArtifact(contractName: "Nft" | "NftMarketplace") {
         const chainId: number = await web3.eth.getChainId()
-        const nftMarketplaceArtifact =
-            contracts[chainId.toString() as keyof typeof contracts][0]["contracts"][
-                "NftMarketplace"
-            ]
+        return contracts[chainId.toString() as keyof typeof contracts][0]["contracts"][
+            contractName
+        ]
+    }
+
+    static async _fetchNftMarketplaceContract() {
+        const nftMarketplaceArtifact = await this.fetchNftMarketplaceContractArtifact()
         return new web3.eth.Contract(
             nftMarketplaceArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
             nftMarketplaceArtifact!.address
@@ -33,7 +39,6 @@ export class ContractHandlerFactory {
     }
 
     static async _fetchNftContract() {
-        const chainId: number = await web3.eth.getChainId()
         const nftArtifact = await this.fetchNftContractArtifact()
         return new web3.eth.Contract(
             nftArtifact!.abi as AbiItem[], // https://github.com/web3/web3.js/issues/3310
