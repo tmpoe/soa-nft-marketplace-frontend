@@ -2,13 +2,7 @@ import { useAccount } from "wagmi"
 import MintingView from "@/components/NftViews/MintingView"
 import { FullTokenData, Listing } from "@/types/nft"
 
-export default function Summon({
-    fullNftData,
-    ownerListings,
-}: {
-    fullNftData: FullTokenData[]
-    ownerListings: Listing[]
-}) {
+export default function Summon() {
     const { address } = useAccount()
 
     return (

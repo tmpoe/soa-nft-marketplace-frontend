@@ -9,13 +9,7 @@ import NftMarketplaceEventDB from "@/adapters/thegraph"
 import NftCardArrayListingView from "@/components/NftViews/NftCardArrayListingView"
 import { Spinner } from "@/components/Spinner"
 
-export default function CatMarket({
-    fullNftData,
-    ownerListings,
-}: {
-    fullNftData: FullTokenData[]
-    ownerListings: Listing[]
-}) {
+export default function CatMarket() {
     const { address } = useAccount()
     console.debug("observerAddress: ", address)
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])

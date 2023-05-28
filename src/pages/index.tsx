@@ -9,13 +9,7 @@ import { useDeepCompareEffect } from "react-use"
 import Link from "next/link"
 import { Spinner } from "@/components/Spinner"
 
-export default function Index({
-    fullNftData,
-    ownerListings,
-}: {
-    fullNftData: FullTokenData[]
-    ownerListings: Listing[]
-}) {
+export default function Index() {
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
     const [fullNftDataPreview, setFullNftDataPreview] = useState<FullTokenData[]>([])
     const [numQuery, setNumQuery] = useState<number>(0)

@@ -1,13 +1,7 @@
 import { useAccount } from "wagmi"
 import { FullTokenData, Listing } from "@/types/nft"
 
-export default function Summon({
-    fullNftData,
-    ownerListings,
-}: {
-    fullNftData: FullTokenData[]
-    ownerListings: Listing[]
-}) {
+export default function Summon() {
     const { address } = useAccount()
 
     return (
