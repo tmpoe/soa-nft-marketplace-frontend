@@ -30,6 +30,11 @@ export class ContractHandlerFactory {
         ]
     }
 
+    static async isChainSupported() {
+        const chainId: number = await web3.eth.getChainId()
+        return contracts[chainId.toString() as keyof typeof contracts] !== undefined
+    }
+
     static async _fetchNftMarketplaceContract() {
         const nftMarketplaceArtifact = await this.fetchNftMarketplaceContractArtifact()
         return new web3.eth.Contract(

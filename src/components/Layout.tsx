@@ -9,6 +9,7 @@ import { FullTokenData, Listing, OnChainTokenData } from "@/types/nft"
 import { useDeepCompareEffect } from "react-use"
 import getTokenMetadata from "@/adapters/ipfs"
 import { ContractHandlerFactory } from "@/adapters/contracts"
+import { Spinner } from "./Spinner"
 
 type ChildrenProps = {
     readonly fullNftData: FullTokenData[]
@@ -25,6 +26,8 @@ export default function Layout({ children }: { children: ReactNode }) {
 
     const [numberOfTokens, setNumberOfTokens] = useState<number>(0)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
+    const [isChainSupported, setIsChainSupported] = useState<boolean>(false)
+    const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
     const [fullNftData, setFullNftData] = useState<FullTokenData[]>([])
@@ -70,7 +73,11 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     async function getOwnerNftData() {
-        if (!isWalletConnected) return
+        if (!isWalletConnected || !isChainSupported) {
+            reset()
+            return
+        }
+
         try {
             const data = await NftMarketplaceEventDB.getOwnerNftData(address!)
 
@@ -83,6 +90,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     async function getOwnerNfts() {
+        if (!isWalletConnected || !isChainSupported) return
         const nft = await ContractHandlerFactory.getNftContractHandler()
 
         // get owner nfts
@@ -121,11 +129,21 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
+        const fetchData = async () => {
+            await ContractHandlerFactory.isChainSupported().then(setIsChainSupported)
+            setIsLoaded(true)
+        }
+        fetchData()
+    })
+
+    useEffect(() => {
         getOwnerNftData()
     }, [isWalletConnected])
 
     useEffect(() => {
-        updateNumberOfNfts()
+        if (!isChainSupported || isWalletConnected) {
+            updateNumberOfNfts()
+        }
         return () => clearInterval(timer)
     }, [numberOfTokens])
 
@@ -134,11 +152,30 @@ export default function Layout({ children }: { children: ReactNode }) {
         getOwnerListedNfts()
     }, [onChainNftData])
 
+    if (!isLoaded) {
+        return (
+            <div className="p-10">
+                <Spinner />
+            </div>
+        )
+    }
+
+    if (isChainSupported) {
+        return (
+            <div>
+                <NavigationBar />
+                {renderChildren()}
+                <InfoToaster />
+            </div>
+        )
+    }
+
     return (
         <div>
             <NavigationBar />
-            {renderChildren()}
-            <InfoToaster />
+            <p className="p-10 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">
+                Unfortunately currently chosen chain is not supported!
+            </p>
         </div>
     )
 }
