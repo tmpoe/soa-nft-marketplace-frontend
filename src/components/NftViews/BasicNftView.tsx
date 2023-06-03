@@ -1,6 +1,6 @@
 import { NFTCardElement } from "@/types/nft"
 import web3 from "web3"
-import { catAttributesHtmlListElements } from "../CatAttributesHtmlListElements"
+import Bar from "../Bar"
 
 export function BasicNftView({
     token,
@@ -11,27 +11,41 @@ export function BasicNftView({
     keyId?: number
     actionButton?: JSX.Element
 }) {
+    const cuteness = token.attributes.find((attribute) => attribute.trait_type == "cuteness")
+    const cutenessValue = cuteness ? cuteness.value : 0
+
+    const playfulness = token.attributes.find((attribute) => attribute.trait_type == "playfulness")
+    const playfulnessValue = playfulness ? playfulness.value : 0
+
     return (
-        <div className="w-96 rounded-lg shadow-md lg:max-w-sm bg-teal-700" key={keyId ? keyId : 1}>
+        <div className="w-96 rounded-lg shadow-md lg:max-w-sm bg-primary" key={keyId ? keyId : 1}>
             <img className="object-cover rounded-lg w-full h-48" src={token.image} alt="image" />
-            <div className="grid gap-2 lg:grid-cols-2 grid-rows-1 col-start-1 col-span-1 p-4">
-                <div className="bg-accent rounded-lg mb-4 p-2">
-                    <h4 className="text-xl font-semibold text-black">
+            <div className="p-4">
+                <div
+                    className="grid rounded-lg bg-accent shadow-md p-3 items-center flex"
+                    key={`${keyId ? keyId : 1}_sub_card`}
+                >
+                    <h4 className="text-xl font-semibold text-black col-start-1 col-span-1 row-start-1 row-span-1">
                         Owner: {token.owner.slice(0, 8)}
                     </h4>
-                    <p className="mb-2 leading-normal col-start-1 col-span-1 row-span-1 row-start-2 text-black p-2">
+                    <p className="leading-normal col-start-3 col-span-1 row-span-1 row-start-1 text-black">
                         Token Id: {token.id} <br />
                         {token.isListed &&
                             token.price &&
                             "Price: " + web3.utils.fromWei(token.price) + " eth"}
                     </p>
-                </div>
-                <div
-                    className="rounded-lg bg-accent shadow-md col-start-2 col-span-1 row-start-1 row-span-3 p-3 items-center flex"
-                    key={`${keyId ? keyId : 1}_sub_card`}
-                >
-                    <ul className="list-none space-y-4">
-                        {...catAttributesHtmlListElements(token)}
+                    <ul className="col-start-1 col-span-4 row-start-2 row-span-2">
+                        {" "}
+                        <li className="col-start-1 col-span-4 row-start-2 row-span-1">
+                            {" "}
+                            <p className="text-black">Cuteness </p>
+                            <Bar value={cutenessValue} />
+                        </li>
+                        <li className="col-start-1 col-span-4 row-start-3 row-span-1">
+                            {" "}
+                            <p className="text-black">Playfulness </p>
+                            <Bar value={playfulnessValue} />
+                        </li>
                     </ul>
                 </div>
 

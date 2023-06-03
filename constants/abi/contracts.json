@@ -2154,7 +2154,7 @@
           ]
         },
         "NftCatAttributes": {
-          "address": "0x3b406cd40B07968bC0c5Ab6e886B672c9c2c0188",
+          "address": "0xe033cD29d7c9650251FE3B8060A02B9c673FB515",
           "abi": [
             {
               "inputs": [
@@ -2236,6 +2236,12 @@
                   "internalType": "uint256",
                   "name": "cuteness",
                   "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "enum NftCatAttributes.Rarity",
+                  "name": "rarity",
+                  "type": "uint8"
                 }
               ],
               "name": "NftCatAttributesCreated",
@@ -2371,7 +2377,7 @@
           ]
         },
         "NftMarketplace": {
-          "address": "0xBF8C54331b7A2f7EBd738b90f83824047e2D5D4c",
+          "address": "0x22365c252Bb294B2C3fBA2eCfc3b0B80D89850A0",
           "abi": [
             {
               "inputs": [
@@ -2682,6 +2688,19 @@
             },
             {
               "inputs": [],
+              "name": "getBalance",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "getMintingFee",
               "outputs": [
                 {
@@ -2782,6 +2801,19 @@
                 }
               ],
               "name": "setMintingFee",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "tapAmount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "tapTreasury",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"

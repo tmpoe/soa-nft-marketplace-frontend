@@ -12,12 +12,11 @@ import { Spinner } from "@/components/Spinner"
 export default function Index() {
     const [onChainNftData, setOnChainNftData] = useState<OnChainTokenData[]>([])
     const [fullNftDataPreview, setFullNftDataPreview] = useState<FullTokenData[]>([])
-    const [numQuery, setNumQuery] = useState<number>(0)
+    const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
     async function getNftData() {
         try {
             setOnChainNftData(await NftMarketplaceEventDB.getNLatestNfts(10))
-            setNumQuery(numQuery + 1)
             console.debug("Got the data boss", onChainNftData)
         } catch (error) {
             console.error(error)
@@ -47,7 +46,11 @@ export default function Index() {
     }, [])
 
     useDeepCompareEffect(() => {
-        getLatestNfts()
+        const fetchData = async () => {
+            await getLatestNfts()
+            setIsLoaded(true)
+        }
+        fetchData()
     }, [onChainNftData])
 
     let n: NFTCardElement[] = []
@@ -79,12 +82,12 @@ export default function Index() {
                     <NftCardArrayLandingView posts={n} />
                 </div>
             )}
-            {n.length == 0 && numQuery == 1 && (
+            {!isLoaded && (
                 <div className="p-10">
                     <Spinner />
                 </div>
             )}
-            {n.length == 0 && numQuery > 1 && (
+            {n.length == 0 && isLoaded && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
                     No Cats have been summoned yet. Be the first one to{" "}
                     <Link href="summon" className="text-teal-600">

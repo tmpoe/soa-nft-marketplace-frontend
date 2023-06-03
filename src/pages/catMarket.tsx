@@ -14,7 +14,7 @@ export default function CatMarket() {
     console.debug("observerAddress: ", address)
     const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
     const [fullNftDataAll, setFullNftDataAll] = useState<ListingTokenData[]>([])
-    const [numQuery, setNumQuery] = useState<number>(0)
+    const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         try {
@@ -24,7 +24,6 @@ export default function CatMarket() {
             )
             if (paginated) {
                 setListingsPaginated(paginated)
-                setNumQuery(numQuery + 1)
             }
             console.debug("paginated listings: ", listingsPaginated)
         } catch (error) {
@@ -60,7 +59,11 @@ export default function CatMarket() {
     }, [])
 
     useDeepCompareEffect(() => {
-        getFullNftData()
+        const fetchData = async () => {
+            await getFullNftData()
+            setIsLoaded(true)
+        }
+        fetchData()
     }, [listingsPaginated])
 
     let n: NFTCardElement[] = []
@@ -86,12 +89,12 @@ export default function CatMarket() {
     return (
         <div>
             {n.length > 0 && <NftCardArrayListingView posts={n} observerAddress={address!} />}
-            {n.length === 0 && numQuery == 1 && (
+            {!isLoaded && (
                 <div className="p-10">
                     <Spinner />
                 </div>
             )}
-            {n.length === 0 && numQuery > 1 && (
+            {n.length === 0 && isLoaded && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
                     No Cats to buy at the moment, come back later!
                 </p>
