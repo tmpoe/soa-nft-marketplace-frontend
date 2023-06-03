@@ -2,7 +2,7 @@ sources:
   - name: ref-nftmark-pet-proj-sepolia
     handler:
       graphql:
-        endpoint: https://api.studio.thegraph.com/query/44756/ref-nftmark-pet-proj-sepolia/v0.0.3
+        endpoint: https://api.studio.thegraph.com/query/44756/ref-nftmark-pet-proj-sepolia/v.0.0.5
 
 documents:
   - subgraph/queries.graphql

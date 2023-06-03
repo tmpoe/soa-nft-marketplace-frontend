@@ -483,6 +483,18 @@
                   "internalType": "uint256",
                   "name": "cuteness",
                   "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "enum NftCatAttributes.Rarity",
+                  "name": "rarity",
+                  "type": "uint8"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "raw_rarity",
+                  "type": "uint256"
                 }
               ],
               "name": "NftCatAttributesCreated",
@@ -929,6 +941,19 @@
             },
             {
               "inputs": [],
+              "name": "getBalance",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "getMintingFee",
               "outputs": [
                 {
@@ -1018,6 +1043,32 @@
                 }
               ],
               "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "newMintingFee",
+                  "type": "uint256"
+                }
+              ],
+              "name": "setMintingFee",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "tapAmount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "tapTreasury",
+              "outputs": [],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -2154,7 +2205,7 @@
           ]
         },
         "NftCatAttributes": {
-          "address": "0xe033cD29d7c9650251FE3B8060A02B9c673FB515",
+          "address": "0x8F01f4Adc7D4f43EA4063Bb415cb7Be4ac02ee6f",
           "abi": [
             {
               "inputs": [
@@ -2284,6 +2335,25 @@
               ],
               "name": "OwnershipTransferred",
               "type": "event"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "rarity",
+                  "type": "uint256"
+                }
+              ],
+              "name": "getRarity",
+              "outputs": [
+                {
+                  "internalType": "enum NftCatAttributes.Rarity",
+                  "name": "",
+                  "type": "uint8"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
             },
             {
               "inputs": [],
