@@ -15,12 +15,10 @@ export default function CatMarket() {
     const [listings, setListings] = useState<Listing[]>([])
     const [fullNftDataAll, setFullNftDataAll] = useState<ListingTokenData[]>([])
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
-    const [queryNumber, setQueryNumber] = useState<number>(0)
 
-    async function getListings() {
+    async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         try {
             const listings = await NftMarketplaceEventDB.getListings()
-            setQueryNumber(queryNumber + 1)
             if (listings) {
                 setListings(listings)
             }
@@ -54,15 +52,13 @@ export default function CatMarket() {
     }
 
     useEffect(() => {
-        getListings()
+        getAPageOfListings(5, 0)
     }, [])
 
     useDeepCompareEffect(() => {
         const fetchData = async () => {
             await getFullNftData()
-            if (queryNumber > 1) {
-                setIsLoaded(true)
-            }
+            setIsLoaded(true)
         }
         fetchData()
     }, [listings])
