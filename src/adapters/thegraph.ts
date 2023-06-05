@@ -5,6 +5,7 @@ import {
     GetOwnedNftsForOwnerDocument,
     execute,
     GetNLatestNftsDocument,
+    GetListingsDocument,
 } from "../../.graphclient"
 
 export default class NftMarketplaceEventDB {
@@ -24,6 +25,15 @@ export default class NftMarketplaceEventDB {
         })
         if (!result.data) {
             throw new Error(`Failed to get page of listings (pl ${pageLength})!`)
+        }
+        console.debug("QL listing ", result)
+        return result.data.activeListings
+    }
+
+    static async getListings() {
+        const result = await execute(GetListingsDocument, {})
+        if (!result.data) {
+            throw new Error("Failed to get listings")
         }
         console.debug("QL listing ", result)
         return result.data.activeListings

@@ -34,6 +34,18 @@ query GetPaginatedListings($get: Int, $skip: Int) {
     }
 }
 
+query GetListings {
+    activeListings(
+        where: { buyer: "0x0000000000000000000000000000000000000000" }
+        orderBy: tokenId
+        orderDirection: desc
+    ) {
+        tokenId
+        owner
+        price
+    }
+}
+
 query GetOwnerListings($owner: Bytes = "") {
     activeListings(
         where: {

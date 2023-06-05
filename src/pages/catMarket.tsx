@@ -1,4 +1,4 @@
-import { FullTokenData, Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
+import { Listing, ListingTokenData, NFTCardElement } from "@/types/nft"
 import { useEffect, useState } from "react"
 import { ContractHandlerFactory } from "@/adapters/contracts"
 import { useDeepCompareEffect } from "react-use"
@@ -12,20 +12,17 @@ import { Spinner } from "@/components/Spinner"
 export default function CatMarket() {
     const { address } = useAccount()
     console.debug("observerAddress: ", address)
-    const [listingsPaginated, setListingsPaginated] = useState<Listing[]>([])
+    const [listings, setListings] = useState<Listing[]>([])
     const [fullNftDataAll, setFullNftDataAll] = useState<ListingTokenData[]>([])
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         try {
-            const paginated = await NftMarketplaceEventDB.getAPageOfListings(
-                pageLength,
-                currentPageNumber
-            )
-            if (paginated) {
-                setListingsPaginated(paginated)
+            const listings = await NftMarketplaceEventDB.getListings()
+            if (listings) {
+                setListings(listings)
             }
-            console.debug("paginated listings: ", listingsPaginated)
+            console.debug("listings: ", listings)
         } catch (error) {
             console.error(error)
         }
@@ -35,11 +32,11 @@ export default function CatMarket() {
         const nft = await ContractHandlerFactory.getNftContractHandler()
 
         setFullNftDataAll([])
-        listingsPaginated.map(async (listing) => {
+        listings.map(async (listing) => {
             try {
                 const uri = await nft.getTokenURI(parseInt(listing.tokenId))
                 const currentTokenMetadata = await getTokenMetadata(uri)
-                console.debug("currentTokenMetadata: ", listingsPaginated)
+                console.debug("currentTokenMetadata: ", listings)
                 console.debug(listing)
 
                 setFullNftDataAll((currentState) => [
@@ -50,7 +47,7 @@ export default function CatMarket() {
                 console.error(error)
             }
         })
-        console.debug("listing: ", listingsPaginated)
+        console.debug("listing: ", listings)
         console.debug("FullNftData: ", fullNftDataAll)
     }
 
@@ -64,7 +61,7 @@ export default function CatMarket() {
             setIsLoaded(true)
         }
         fetchData()
-    }, [listingsPaginated])
+    }, [listings])
 
     let n: NFTCardElement[] = []
     fullNftDataAll.map((data, index) => {
