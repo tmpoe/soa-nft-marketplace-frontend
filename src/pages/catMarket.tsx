@@ -18,9 +18,10 @@ export default function CatMarket() {
 
     async function getAPageOfListings(pageLength: number, currentPageNumber: number) {
         try {
-            const listings = await NftMarketplaceEventDB.getListings()
-            if (listings) {
-                setListings(listings)
+            const fetchedListings = await NftMarketplaceEventDB.getListings()
+            if (fetchedListings) {
+                // For some reasong setting this does not take effect immediately...???
+                setListings((currentState) => [...currentState, ...fetchedListings])
             }
             console.debug("listings: ", listings)
         } catch (error) {
@@ -39,6 +40,7 @@ export default function CatMarket() {
                 console.debug("currentTokenMetadata: ", listings)
                 console.debug(listing)
 
+                // For some reasong setting this does not take effect immediately...???
                 setFullNftDataAll((currentState) => [
                     ...currentState,
                     { ...currentTokenMetadata, ...listing },
