@@ -45,11 +45,7 @@ export function BasicNftView({
                 className={`w-106 rounded-lg lg:max-w-sm bg-primary border-solid border-4 ${borderColor}`}
                 key={keyId ? keyId : 1}
             >
-                <img
-                    className="object-cover rounded-lg w-full h-48"
-                    src={token.image}
-                    alt="image"
-                />
+                <img className="object-cover rounded w-full h-48" src={token.image} alt="image" />
                 <div className="p-4">
                     <div
                         className="grid rounded-lg bg-accent shadow-md p-3 items-center flex"
