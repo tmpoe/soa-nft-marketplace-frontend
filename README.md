@@ -17,9 +17,9 @@ yarn dev
 If you want to mint:
 
 ```
-set NEXT_PUBLIC_BACKEND_URL to an url with port 5000 pointing to the server of https://github.com/tmpoe/soa-nft-marketplace-backend
+//set NEXT_PUBLIC_BACKEND_URL to an url with port 5000 pointing to the server of https://github.com/tmpoe/soa-nft-marketplace-backend
 
-Read its how to on how to start it
+//Read its how to on how to start it
 ```
 
 Update graph version if necessary in .graphclientrc.yml (endpoint) then
@@ -46,11 +46,11 @@ yarn prod
 
 ### Online prod - gcloud
 ```
-set NEXT_PUBLIC_BACKEND_URL to running VM instance url
+//set NEXT_PUBLIC_BACKEND_URL to running VM instance url
 
 yarn buildImage
 
-push to gcloud
+//push to gcloud
 
 fire up VM instance
 ```
