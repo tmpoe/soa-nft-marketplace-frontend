@@ -23,6 +23,7 @@ module.exports = {
                     success: "#22c55e",
                     warning: "#fbbd23",
                     error: "#dc2626",
+                    "border-color": "#0ea5e9",
                 },
             },
         ],

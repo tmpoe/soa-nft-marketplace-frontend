@@ -3,12 +3,12 @@ import web3 from "web3"
 import Bar from "../Bar"
 
 const COLOR_BASED_ON_RARITY = [
-    "red-500",
-    "yellow-500",
-    "purple-600",
-    "blue-600",
-    "green-500",
-    "white-100",
+    "red-border",
+    "yellow-border",
+    "purple-border",
+    "blue-border",
+    "green-border",
+    "white-border",
 ]
 
 export function BasicNftView({
@@ -31,7 +31,6 @@ export function BasicNftView({
     const rarityValue = rarity ? rarity.value : 0
     console.log("rarityValue: ", rarityValue)
     let borderColor =
-        "border-" +
         COLOR_BASED_ON_RARITY[
             typeof rarityValue === "string" ? parseInt(rarityValue) : rarityValue
         ]
