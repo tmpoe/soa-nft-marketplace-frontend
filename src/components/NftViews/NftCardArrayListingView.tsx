@@ -5,10 +5,10 @@ import { BasicNftView } from "./BasicNftView"
 import { NftViewActionButton } from "./NftViewActionButton"
 
 export default function NftCardArrayListingView({
-    posts,
+    nftCardElements: nftCardElements,
     observerAddress,
 }: {
-    posts: Array<NFTCardElement>
+    nftCardElements: Array<NFTCardElement>
     observerAddress: string
 }) {
     async function cancelListing(tokenId: string) {
@@ -47,7 +47,7 @@ export default function NftCardArrayListingView({
     return (
         <>
             <div className="grid gap-6 lg:grid-cols-3 m-10">
-                {posts.map((token: NFTCardElement, key) => (
+                {nftCardElements.map((token: NFTCardElement, key) => (
                     <BasicNftView
                         token={token}
                         key={key}

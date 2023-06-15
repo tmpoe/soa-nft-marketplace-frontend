@@ -7,10 +7,10 @@ import { BasicNftView } from "./BasicNftView"
 import { NftViewActionButton } from "./NftViewActionButton"
 
 export default function NftCardArrayCollectionView({
-    posts,
+    nftCardElements,
     observerAddress,
 }: {
-    posts: Array<NFTCardElement>
+    nftCardElements: Array<NFTCardElement>
     observerAddress: string
 }) {
     const [showSellingModal, setShowSellingModal] = useState(false)
@@ -53,7 +53,7 @@ export default function NftCardArrayCollectionView({
     return (
         <>
             <div className="grid gap-6 lg:grid-cols-3 m-10">
-                {posts.map((token: NFTCardElement, key) => (
+                {nftCardElements.map((token: NFTCardElement, key) => (
                     <BasicNftView
                         token={token}
                         keyId={key}

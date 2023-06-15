@@ -53,9 +53,9 @@ export default function Index() {
         fetchData()
     }, [onChainNftData])
 
-    let n: NFTCardElement[] = []
+    let nftCardElements: NFTCardElement[] = []
     fullNftDataPreview.map((data, index) => {
-        n.push({
+        nftCardElements.push({
             owner: data.owner,
             id: data.tokenId!,
             image: IPFS_URL + data.imageLocation,
@@ -63,8 +63,8 @@ export default function Index() {
             isListed: false,
         })
     })
-    console.debug("n", n)
-    n.sort((a, b) => (a.id > b.id ? -1 : 1))
+    console.debug("n", nftCardElements)
+    nftCardElements.sort((a, b) => (a.id > b.id ? -1 : 1))
     return (
         <div className="p-10">
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">
@@ -74,12 +74,12 @@ export default function Index() {
                 Let luck be on your side and get the cutest Cat out of the Summoning Bag!
             </p>
 
-            {n.length > 0 && (
+            {nftCardElements.length > 0 && (
                 <div>
                     <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
                         See the latest cute Cats who found their new home
                     </p>
-                    <NftCardArrayLandingView posts={n} />
+                    <NftCardArrayLandingView nftCardElements={nftCardElements} />
                 </div>
             )}
             {!isLoaded && (
@@ -87,7 +87,7 @@ export default function Index() {
                     <Spinner />
                 </div>
             )}
-            {n.length == 0 && isLoaded && (
+            {nftCardElements.length == 0 && isLoaded && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
                     No Cats have been summoned yet. Be the first one to{" "}
                     <Link href="summon" className="text-teal-600">

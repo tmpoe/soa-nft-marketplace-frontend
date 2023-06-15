@@ -107,9 +107,9 @@ export default function MyCats() {
     })
     console.debug("listedIds", listedIds)
 
-    let n: NFTCardElement[] = []
+    let nftCardElements: NFTCardElement[] = []
     fullNftData.map((data, index) => {
-        n.push({
+        nftCardElements.push({
             owner: data.owner,
             id: data.tokenId!,
             image: IPFS_URL + data.imageLocation,
@@ -117,8 +117,8 @@ export default function MyCats() {
             isListed: listedIds.includes(data.tokenId!) ? true : false,
         })
     })
-    console.debug("n", n)
-    n.sort((a, b) => (a.id > b.id ? -1 : 1))
+    console.debug("n", nftCardElements)
+    nftCardElements.sort((a, b) => (a.id > b.id ? -1 : 1))
 
     if (!isLoaded) {
         return (
@@ -134,7 +134,7 @@ export default function MyCats() {
                     Please connect your wallet.
                 </p>
             )}
-            {address && n.length == 0 && (
+            {address && nftCardElements.length == 0 && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
                     Oh no! You do not have any cats! Maybe you should{" "}
                     <Link href="summon" className="text-fuchsia-600">
@@ -147,7 +147,10 @@ export default function MyCats() {
                     one?
                 </p>
             )}
-            <NftCardArrayCollectionView posts={n} observerAddress={address!} />
+            <NftCardArrayCollectionView
+                nftCardElements={nftCardElements}
+                observerAddress={address!}
+            />
         </div>
     )
 }

@@ -65,9 +65,9 @@ export default function CatMarket() {
         fetchData()
     }, [listings])
 
-    let n: NFTCardElement[] = []
+    let nftCardElements: NFTCardElement[] = []
     fullNftDataAll.map((data, index) => {
-        n.push({
+        nftCardElements.push({
             owner: data.owner,
             id: data.tokenId!,
             image: IPFS_URL + data.imageLocation,
@@ -76,7 +76,7 @@ export default function CatMarket() {
             isListed: true,
         })
     })
-    console.debug("posts", n)
+    console.debug("posts", nftCardElements)
     if (!address) {
         return (
             <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
@@ -87,13 +87,18 @@ export default function CatMarket() {
 
     return (
         <div>
-            {n.length > 0 && <NftCardArrayListingView posts={n} observerAddress={address!} />}
+            {nftCardElements.length > 0 && (
+                <NftCardArrayListingView
+                    nftCardElements={nftCardElements}
+                    observerAddress={address!}
+                />
+            )}
             {!isLoaded && (
                 <div className="p-10">
                     <Spinner />
                 </div>
             )}
-            {n.length === 0 && isLoaded && (
+            {nftCardElements.length === 0 && isLoaded && (
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center py-10">
                     No Cats to buy at the moment, come back later!
                 </p>
